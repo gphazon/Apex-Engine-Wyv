@@ -1,0 +1,61 @@
+//=========================================================
+//		Apex Roleplaying Engine
+//		Copyright (c) 2014 , Xethyr.407 [NA] / @nmosfet
+//=========================================================
+// This software is distributed under the MIT License:
+// <http://opensource.org/licenses/MIT>
+//=========================================================
+
+bool libapx_key_pressed_down(bool testConds, bool runActions) {
+	if( EventKeyPressed() == c_keyControl ) {
+		libapx_player[EventPlayer()].key_ctrl = true;
+	}
+	// [Esc] key used to cancel spawn placing (if occuring)
+	else if( EventKeyPressed() == c_keyEscape ) {
+		if( libapx_player[EventPlayer()].is_placing_unit ) {
+			libapx_player[EventPlayer()].is_placing_unit = false;
+			UnitRemove(libapx_player[EventPlayer()].spawn_splat);
+			UISetSelectionTypeEnabled(PlayerGroupSingle(EventPlayer()), c_localSelectionTypeUnknown, true);
+		}
+	}
+	else if( EventKeyPressed() == c_keyAlt ) {
+		libapx_player[EventPlayer()].key_alt = true;
+	}
+	else if( EventKeyPressed() == c_keyShift ) {
+		libapx_player[EventPlayer()].key_shift = true;
+	}
+	else if( EventKeyPressed() == c_keyX ) {
+		libapx_player[EventPlayer()].key_x = true;
+	}
+	else if( EventKeyPressed() == c_keyY ) {
+		libapx_player[EventPlayer()].key_y = true;
+	}
+	else if( EventKeyPressed() == c_keyZ ) {
+		libapx_player[EventPlayer()].key_z = true;
+	}
+
+	return true;
+}
+
+bool libapx_key_pressed_up(bool testConds, bool runActions) {
+	if( EventKeyPressed() == c_keyControl ) {
+		libapx_player[EventPlayer()].key_ctrl = false;
+	}
+	else if( EventKeyPressed() == c_keyAlt ) {
+		libapx_player[EventPlayer()].key_alt = false;
+	}
+	else if( EventKeyPressed() == c_keyShift ) {
+		libapx_player[EventPlayer()].key_shift = false;
+	}
+	else if( EventKeyPressed() == c_keyX ) {
+		libapx_player[EventPlayer()].key_x = false;
+	}
+	else if( EventKeyPressed() == c_keyY ) {
+		libapx_player[EventPlayer()].key_y = false;
+	}
+	else if( EventKeyPressed() == c_keyZ ) {
+		libapx_player[EventPlayer()].key_z = false;
+	}
+
+	return true;
+}

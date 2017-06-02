@@ -1,0 +1,98 @@
+//=========================================================
+//		Apex Roleplaying Engine
+//		Copyright (c) 2014 , Xethyr.407 [NA] / @nmosfet
+//=========================================================
+// This software is distributed under the MIT License:
+// <http://opensource.org/licenses/MIT>
+//=========================================================
+
+
+// libapx_command_narrate
+// ====================
+// just prints out a line of text to everyone
+void libapx_command_narrate(int user, unitgroup u, string argv) {
+	string msg = argv;
+	msg = StringSub( msg, StringFind(msg, " ", c_stringCase) + 1, StringLength(msg) ); // remainder of chat message
+
+	libapx_print(PlayerGroupAll(), libapx_string_trim(msg));
+
+	// log msg in chatlog
+	libapx_log(user, StringToText(""), msg);
+
+	return;
+}
+
+// libapx_command_say
+// ==================
+// prints [unit name]: msg to chat
+// (actor talk icon and sound are defined in data.galaxy)
+void libapx_command_say(int user, unitgroup u, string argv) {
+	text unit_name;
+	text unit_msg;
+	string cmd_msg = argv;
+	cmd_msg = ": " + libapx_string_trim(StringSub( cmd_msg, StringFind(cmd_msg, " ", c_stringCase) + 1, StringLength(cmd_msg) )); // remainder of chat message
+
+	unit_msg = StringToText(cmd_msg);
+
+	UnitGroupLoopBegin(u);
+	while(!UnitGroupLoopDone()) {
+		unit_name = libapx_unit_get_name( UnitGroupLoopCurrent() );
+
+		// @say unit visuals (flash circle, make a talk icon appear overhead)
+		UnitFlashSelection(UnitGroupLoopCurrent(), 2.0);
+		ActorSend(libNtve_gf_MainActorofUnit(UnitGroupLoopCurrent()), "AttachModel " + libapx_TALK_ICON_ACTOR + "{} Overhead");
+
+		libapx_print_text(PlayerGroupAll(), unit_name + unit_msg);
+
+		// log msg in chatlog
+		libapx_log(user, unit_name, cmd_msg);
+
+		UnitGroupLoopStep();
+	}
+	UnitGroupLoopEnd();
+
+	return;
+}
+
+// libapx_command_setname
+// ==================
+// gives a unit a custom name by storing in data table
+void libapx_command_setname(int user, unitgroup u, string argv) {
+	string name = argv;
+	name = StringSub( name, StringFind(name, " ", c_stringCase) + 1, StringLength(name) ); // remainder of chat message
+
+	UnitGroupLoopBegin(u);
+	while(!UnitGroupLoopDone()) {
+		libapx_unit_set_name(name, UnitGroupLoopCurrent());
+		libapx_print_output(user, "Unit [ID: " + libapx_unit_id(UnitGroupLoopCurrent()) + "] name set to: " + name);
+		libapx_unit_cache_update(UnitGroupLoopCurrent(), "@setname", argv);
+		UnitGroupLoopStep();
+	}
+	UnitGroupLoopEnd();
+
+	return;
+}
+
+// libapx_command_setnamecolor
+// ==================
+// sets a units name to a specific color, where
+// @setnamecolor [red] [green] [blue]
+// input RGB between 0-256 (by convention), but Color() takes fixed between 0-100,
+// so must normalize RGB to 0-100
+void libapx_command_setnamecolor(int user, unitgroup u, string argv) {
+	fixed r = StringToFixed( StringWord(argv, 2 ) );
+	fixed g = StringToFixed( StringWord(argv, 3 ) );
+	fixed b = StringToFixed( StringWord(argv, 4 ) );
+	color col = Color( r*100/256 , g*100/256 , b*100/256 ); // normalize to 100
+
+	UnitGroupLoopBegin(u);
+	while(!UnitGroupLoopDone()) {
+		libapx_unit_set_name_color(col, UnitGroupLoopCurrent());
+		libapx_print_text(PlayerGroupSingle(user), StringToText("> Unit [ID: " + libapx_unit_id(UnitGroupLoopCurrent()) + "] name set to: ") + libapx_unit_get_name(UnitGroupLoopCurrent()));
+		libapx_unit_cache_update(UnitGroupLoopCurrent(), "@setnamecolor", argv);
+		UnitGroupLoopStep();
+	}
+	UnitGroupLoopEnd();
+
+	return;
+}

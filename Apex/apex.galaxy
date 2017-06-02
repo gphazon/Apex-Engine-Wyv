@@ -1,0 +1,23 @@
+//=========================================================
+//		Apex Roleplaying Engine
+//		Copyright (c) 2014 , Xethyr.407 [NA] / @nmosfet
+//=========================================================
+// This software is distributed under the MIT License:
+// <http://opensource.org/licenses/MIT>
+//=========================================================
+
+include "Apex/engine/engine.galaxy"
+include "Apex/commands/commands.galaxy"
+include "Apex/ui/ui.galaxy"
+
+// welcome message
+const string libapx_SPLASH_MESSAGE = "Welcome to Apex Roleplay Engine. This is still in beta, so there are a lot of features still being added. Type \">commands\" to get started!";
+
+void libapx_initialize() {
+	libapx_engine_initialize();
+	libapx_commands_initialize();
+	libapx_ui_initialize();
+
+	libapx_print(PlayerGroupAll(), "Apex Engine: v" + IntToString(libapx_BUILD_VERSION) + "." + IntToString(libapx_BUILD_SUB_VERSION) + libapx_BUILD_VERSION_MODIFIER);
+	libapx_print(PlayerGroupAll(), libapx_SPLASH_MESSAGE);
+}

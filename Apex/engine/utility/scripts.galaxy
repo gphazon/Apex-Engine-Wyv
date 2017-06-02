@@ -1,0 +1,14 @@
+//=========================================================
+//		Apex Roleplaying Engine
+//		Copyright (c) 2014 , Xethyr.407 [NA] / @nmosfet
+//=========================================================
+// This software is distributed under the MIT License:
+// <http://opensource.org/licenses/MIT>
+//=========================================================
+
+include "Apex/engine/utility/string.galaxy"
+include "Apex/engine/utility/qsort.galaxy"
+
+void libapx_scripts_init() {
+	libx_qsort_init();
+}
