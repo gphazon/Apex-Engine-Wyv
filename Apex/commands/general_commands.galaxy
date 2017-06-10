@@ -1,6 +1,6 @@
 //=========================================================
 //		Apex Roleplaying Engine
-//		Copyright (c) 2014 , Xethyr.407 [NA] / @nmosfet
+//		Copyright (c) 2017, Apex Group
 //=========================================================
 // This software is distributed under the MIT License:
 // <http://opensource.org/licenses/MIT>
@@ -11,7 +11,7 @@
 // ====================
 // just prints out a line of text to everyone
 void libapx_command_info(int user, unitgroup u, string argv) {
-	libapx_print_output(user, "Apex Engine v" + IntToString(libapx_BUILD_VERSION) + "." + IntToString(libapx_BUILD_SUB_VERSION) + libapx_BUILD_VERSION_MODIFIER);
+	libapx_print_output(user, "apex Engine v" + IntToString(libapx_BUILD_VERSION) + "." + IntToString(libapx_BUILD_SUB_VERSION) + libapx_BUILD_VERSION_MODIFIER);
 }
 
 // libapx_command_list_commands

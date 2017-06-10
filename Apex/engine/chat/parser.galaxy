@@ -1,14 +1,14 @@
 //=========================================================
 //		Apex Roleplaying Engine
-//		Copyright (c) 2014 , Xethyr.407 [NA] / @nmosfet
+//		Copyright (c) 2017, Apex Group
 //=========================================================
 // This software is distributed under the MIT License:
 // <http://opensource.org/licenses/MIT>
 //=========================================================
 
-include "Apex/engine/chat/alias.galaxy"
-include "Apex/engine/chat/macro.galaxy"
-include "Apex/engine/chat/variables.galaxy"
+include "apex/engine/chat/alias.galaxy"
+include "apex/engine/chat/macro.galaxy"
+include "apex/engine/chat/variables.galaxy"
 
 const string libapx_CHAT_COMMAND_DATA_TABLE_PREFIX = "libapx_command_";
 

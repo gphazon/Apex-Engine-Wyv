@@ -23,7 +23,7 @@ This assumes you have a map already created. After opening the map, go to
 **File > Dependencies**  
 Hit **Add Other...** and go to the **Battle.net** tab in the window that opens.
 After logging in to Battle.net, change the "Source" of files to
-**Map/Mod Name** and search for "Apex". You should be able to find the
+**Map/Mod Name** and search for "apex". You should be able to find the
 **Apex RP Engine** mod published by Xethyr. Select this mod and hit OK.  
 
 This mod should now be added to your "Document dependencies" list. Move this
@@ -89,7 +89,7 @@ near the bottom of the window for **Bank Name:** enter in the box
 Go to the **Trigger Editor** (F6). Create a new custom script (Ctrl + Alt + T)
 that contains the code
 ```
-include "Apex/Apex.galaxy"
+include "apex/Apex.galaxy"
 ```
 
 Now create a new trigger with event **Map Initialization** and create an action

@@ -1,6 +1,6 @@
 //=========================================================
 //		Apex Roleplaying Engine
-//		Copyright (c) 2014 , Xethyr.407 [NA] / @nmosfet
+//		Copyright (c) 2017, Apex Group
 //=========================================================
 // This software is distributed under the MIT License:
 // <http://opensource.org/licenses/MIT>
@@ -12,45 +12,45 @@
 // scripts
 // =============
 // Contains various utility functions used throughout engine
-include "Apex/engine/utility/scripts.galaxy"
+include "apex/engine/utility/scripts.galaxy"
 
 // ui_helper
 // =============
 // Contains various helper functions for creating ui dialogs:
 // use helper functions instead of Blizzard natives in order to unify
 // the theme for all dialogs
-include "Apex/engine/ui_helper.galaxy"
+include "apex/engine/ui_helper.galaxy"
 
 // data
 // =============
 // defines SCII data catalog constants used for certain commands,
 // and include data catalog search and catalog alias functions
-include "Apex/engine/data/data.galaxy"
+include "apex/engine/data/data.galaxy"
 
 // settings
 // =============
 // Contains ingame global settings
 // These are used as parameters in certain commands
 // Ideally most of these should be adjustable in game
-include "Apex/engine/settings.galaxy"
+include "apex/engine/settings.galaxy"
 
 // player
 // =============
 // Contains any important player specific variables during
 // runtime of the engine (e.g. player mouse position, chat lines,...)
 // Contains string name for player bank
-include "Apex/engine/player.galaxy"
+include "apex/engine/player.galaxy"
 
 // output
 // =============
 // All functions for outputting text to the custom chat frame
-include "Apex/engine/output.galaxy"
+include "apex/engine/output.galaxy"
 
 // bank
 // =============
 // Contains custom functions for writing to player banks
 
-include "Apex/engine/bank.galaxy"
+include "apex/engine/bank.galaxy"
 
 // log (chat)
 // =============
@@ -58,43 +58,43 @@ include "Apex/engine/bank.galaxy"
 // elsewhere, specifically for a message log reading ui module (chatlog).
 // These messages logged should be those from a @say or >narrate type command,
 // e.g. commands that print messages pertaining to the roleplay's story.
-include "Apex/engine/chat/log.galaxy"
+include "apex/engine/chat/log.galaxy"
 
 // parser
 // =============
 // Parser for player chat commands and built-in chat system functions:
 // Includes frameworks for variables, aliases, and templates parsing
-include "Apex/engine/chat/parser.galaxy"
+include "apex/engine/chat/parser.galaxy"
 
 // unit
 // =============
 // Unit spawn related functions, unit death/creation data management,
 // unit command caching functionality
-include "Apex/engine/unit.galaxy"
+include "apex/engine/unit.galaxy"
 
 // permissions
 // =============
 // Contains functions for player permissions related functions
 // and unit permissions
-include "Apex/engine/permissions.galaxy"
+include "apex/engine/permissions.galaxy"
 
 // regions
 // =============
 // Contains helper functions for managing regions and linking
 // regions for waygate (teleport) functionality
-include "Apex/engine/regions.galaxy"
+include "apex/engine/regions.galaxy"
 
 // gamesetups
 // =============
 // Saving/loading units and their command history into player banks
 // -> allows creation of "gamesetups" (act like game saves)
-include "Apex/engine/gamesetups.galaxy"
+include "apex/engine/gamesetups.galaxy"
 
 // events
 // =============
 // Events that require triggers to run and update things
 // e.g. player moves mouse, unit enters region
-include "Apex/engine/events/events.galaxy"
+include "apex/engine/events/events.galaxy"
 
 // blacklist
 // =============
@@ -102,12 +102,12 @@ include "Apex/engine/events/events.galaxy"
 // -> blacklist runs at start of game for host,
 //    disables any player on host's blacklist
 // player usage of blacklist handled by blacklist in general_commands
-include "Apex/engine/blacklist.galaxy"
+include "apex/engine/blacklist.galaxy"
 
 // debug
 // =============
 // tools for debugging
-include "Apex/engine/debug.galaxy"
+include "apex/engine/debug.galaxy"
 
 // engine version
 const int libapx_BUILD_VERSION = 1;

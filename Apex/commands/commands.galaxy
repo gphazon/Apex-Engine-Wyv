@@ -1,19 +1,19 @@
 //=========================================================
 //		Apex Roleplaying Engine
-//		Copyright (c) 2014 , Xethyr.407 [NA] / @nmosfet
+//		Copyright (c) 2017, Apex Group
 //=========================================================
 // This software is distributed under the MIT License:
 // <http://opensource.org/licenses/MIT>
 //=========================================================
 
-include "Apex/commands/general_commands.galaxy"
-include "Apex/commands/admin_commands.galaxy"
-include "Apex/commands/spawn_commands.galaxy"
-include "Apex/commands/unit_commands.galaxy"
-include "Apex/commands/actor_commands.galaxy"
-include "Apex/commands/chat_commands.galaxy"
-include "Apex/commands/region_commands.galaxy"
-include "Apex/commands/debug_commands.galaxy"
+include "apex/commands/general_commands.galaxy"
+include "apex/commands/admin_commands.galaxy"
+include "apex/commands/spawn_commands.galaxy"
+include "apex/commands/unit_commands.galaxy"
+include "apex/commands/actor_commands.galaxy"
+include "apex/commands/chat_commands.galaxy"
+include "apex/commands/region_commands.galaxy"
+include "apex/commands/debug_commands.galaxy"
 
 void libapx_commands_initialize() {
 
@@ -22,8 +22,8 @@ void libapx_commands_initialize() {
 	// libapx_chat_command_create(">sort", libapx_command_sort);
 
 	// general commands
-	libapex_chat_command_create("_info", libapx_command_info)
-	libapex_chat_command_create("_commands", libapx_command_list_commands);
+	libapx_chat_command_create("_info", libapx_command_info);
+	libapx_chat_command_create("_commands", libapx_command_list_commands);
 	libapx_chat_command_create("_delay", libapx_command_delay);
 	libapx_chat_command_create("_players", libapx_command_players);
 	libapx_chat_command_create("_gamesetup", libapx_command_gamesetup);
@@ -42,7 +42,6 @@ void libapx_commands_initialize() {
 	libapx_chat_command_create("_light", libapx_command_light);
 	libapx_chat_command_create("_blacklist", libapx_command_blacklist);
 	libapx_chat_command_create("_doodads", libapx_command_doodads);
-	//libapx_chat_command_create("_event", libapx_command_event);
 
 	// admin commands
 	libapx_chat_command_create("!ban", libapx_command_ban);

@@ -1,13 +1,13 @@
 //=========================================================
 //		Apex Roleplaying Engine
-//		Copyright (c) 2014 , Xethyr.407 [NA] / @nmosfet
+//		Copyright (c) 2017, Apex Group
 //=========================================================
 // This software is distributed under the MIT License:
 // <http://opensource.org/licenses/MIT>
 //=========================================================
 
-include "Apex/ui/modelpreviewer.galaxy"
-include "Apex/ui/chatlog.galaxy"
+include "apex/ui/modelpreviewer.galaxy"
+include "apex/ui/chatlog.galaxy"
 
 // number of ui panels for the ui utility toolbar
 static const int libapx_UI_NPANELS = 2;

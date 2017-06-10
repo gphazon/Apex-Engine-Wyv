@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TriggerData>
+    <Standard Id="5C893E40"/>
+    <Name>apex_init</Name>
+    <Root>
+        <Item Type="CustomScript" Library="5C893E40" Id="1D8C2E9F"/>
+        <Item Type="Trigger" Library="5C893E40" Id="23DADB5D"/>
+    </Root>
+    <Element Type="CustomScript" Id="1D8C2E9F">
+        <Identifier>IncludeCortex</Identifier>
+        <Name>ApexInit</Name>
+        <ScriptCode>
+            include &quot;apex/apex.galaxy&quot;
+        </ScriptCode>
+    </Element>
+    <Element Type="Trigger" Id="23DADB5D">
+        <Name>apex_trig</Name>
+        <Event Type="FunctionCall" Library="5C893E40" Id="999C1C64"/>
+        <Action Type="FunctionCall" Library="5C893E40" Id="D96EEE65"/>
+    </Element>
+    <Element Type="FunctionCall" Id="999C1C64">
+        <Name></Name>
+        <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000120"/>
+    </Element>
+    <Element Type="FunctionCall" Id="D96EEE65">
+        <Name></Name>
+        <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000123"/>
+        <ScriptCode>
+            LIBAPX_initialize();
+        </ScriptCode>
+    </Element>
+</TriggerData>
