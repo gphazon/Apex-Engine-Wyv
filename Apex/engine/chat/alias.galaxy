@@ -53,8 +53,8 @@ bool libapx_alias_command_redirect(string command, int player) {
 			return true;
 		}
 
-		// remove "alias" and "create" and the alias from chat msg
-		content = StringReplaceWord(libapx_player[player].chat_msg, "alias", "", 1, c_stringNoCase);
+		// remove "_alias" and "create" and the alias from chat msg
+		content = StringReplaceWord(libapx_player[player].chat_msg, "_alias", "", 1, c_stringNoCase);
 		content = StringReplaceWord(content, "create", "", 1, c_stringNoCase);
 		content = libapx_string_trim( StringSub(content, StringFind(content, alias, c_stringNoCase) + StringLength(alias) + 1, StringLength(content)) );
 

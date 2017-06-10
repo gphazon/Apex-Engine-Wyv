@@ -610,7 +610,7 @@ void libapx_unit_cache_update(unit subject, string command, string user_command)
 		}
 	}
 	// Never overwrite these commands: always add a new command to cache
-	else if( command == "@actormsg" ||
+	else if( command == "@actrmsg" ||
 			 command == "@addbehavior" ||
 			 command == "@removebehavior" ||
 			 command == "@addweapon" ||

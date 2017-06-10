@@ -71,7 +71,7 @@ static void libapx_apply_actormsg(unitgroup g, string target, string argv, strin
 // Sends an ActorMessage to a unit (main or a actor reference) or to a global reference
 // Optional reference is either ->[reference] for local scope (within a unit scope)
 //							or	__[reference] for global scope (any actor on map)
-// Syntax: @actormsg ->/__[reference] [msg]
+// Syntax: @actrmsg ->/__[reference] [msg]
 //
 // An issue that isn't easily dealt with is that actor messages are
 // case sensitive. Only way to allow case insensitive user inputs is to manually
@@ -123,7 +123,7 @@ void libapx_command_actormessage(int user, unitgroup u, string argv) {
 		}
 		else {
 			ActorSendTo(libNtve_gf_MainActorofUnit(UnitGroupLoopCurrent()), target, amsg);
-			libapx_unit_cache_update(UnitGroupLoopCurrent(), "@actormsg", argv);
+			libapx_unit_cache_update(UnitGroupLoopCurrent(), "@actrmsg", argv);
 		}
 		UnitGroupLoopStep();
 	}

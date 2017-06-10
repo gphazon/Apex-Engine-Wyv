@@ -31,7 +31,6 @@ void libapx_commands_initialize() {
 	libapx_chat_command_create("_uncontrol", libapx_command_uncontrol);
 	libapx_chat_command_create("_ally", libapx_command_ally);
 	libapx_chat_command_create("_unally", libapx_command_unally);
-	libapx_chat_command_create("_remove", libapx_command_remove_player);
 	libapx_chat_command_create("_search", libapx_command_search);
 	libapx_chat_command_create("_replace", libapx_command_replace);
 	libapx_chat_command_create("_minerals", libapx_command_minerals);
@@ -41,7 +40,6 @@ void libapx_commands_initialize() {
 	libapx_chat_command_create("_zoom", libapx_command_zoom);
 	libapx_chat_command_create("_light", libapx_command_light);
 	libapx_chat_command_create("_blacklist", libapx_command_blacklist);
-	libapx_chat_command_create("_doodads", libapx_command_doodads);
 
 	// admin commands
 	libapx_chat_command_create("!ban", libapx_command_ban);
@@ -51,11 +49,13 @@ void libapx_commands_initialize() {
 	libapx_chat_command_create("!unmute", libapx_command_unmute);
 	libapx_chat_command_create("!promote", libapx_command_promote);
 	libapx_chat_command_create("!demote", libapx_command_demote);
+	libapx_chat_command_create("!remove", libapx_command_remove_player);
 
 	// spawn command
 	libapx_chat_command_create("@spawn+", libapx_command_spawn_plus);
 	libapx_chat_command_create("@spawn", libapx_command_spawn);
 	// unit commands
+	libapx_chat_command_create("@doodad", libapx_command_doodads);
 	libapx_chat_command_create("@kill", libapx_command_kill);
 	libapx_chat_command_create("@remove", libapx_command_remove);
 	libapx_chat_command_create("@removearea", libapx_command_removearea);
@@ -102,7 +102,7 @@ void libapx_commands_initialize() {
 	libapx_chat_command_create("@state", libapx_command_state);
 
 	// unit visual (actor) commands
-	libapx_chat_command_create("@actormsg", libapx_command_actormessage);
+	libapx_chat_command_create("@actrmsg", libapx_command_actormessage);
 	libapx_chat_command_create("@actoralias", libapx_command_actoralias);
 	libapx_chat_command_create("@scale", libapx_command_scale);
 	libapx_chat_command_create("@tint", libapx_command_tint);
@@ -114,7 +114,7 @@ void libapx_commands_initialize() {
 	libapx_chat_command_create("@attach", libapx_command_attach);
 
 	// chat commands
-	libapx_chat_command_create("_narrate", libapx_command_narrate);
+	libapx_chat_command_create("@narrate", libapx_command_narrate);
 	libapx_chat_command_create("@say", libapx_command_say);
 	libapx_chat_command_create("@setname", libapx_command_setname);
 	libapx_chat_command_create("@setnamecolor", libapx_command_setnamecolor);

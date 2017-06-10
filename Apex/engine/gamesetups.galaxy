@@ -192,7 +192,7 @@ string libapx_gamesetup_alias_commands(string s) {
 	aliased = StringReplaceWord(aliased, "@play", "@pl", c_stringReplaceAll, false);
 	aliased = StringReplaceWord(aliased, "@subtitle", "@st", c_stringReplaceAll, false);
 	aliased = StringReplaceWord(aliased, "@statbars", "@sb", c_stringReplaceAll, false);
-	aliased = StringReplaceWord(aliased, "@actormsg", "@amsg", c_stringReplaceAll, false);
+	aliased = StringReplaceWord(aliased, "@actrmsg", "@amsg", c_stringReplaceAll, false);
 	aliased = StringReplaceWord(aliased, "@addbehavior", "@ab", c_stringReplaceAll, false);
 	aliased = StringReplaceWord(aliased, "@removebehavior", "@rb", c_stringReplaceAll, false);
 	aliased = StringReplaceWord(aliased, "@addweapon", "@aw", c_stringReplaceAll, false);
@@ -228,7 +228,7 @@ string libapx_gamesetup_alias_commands_unpack(string aliased) {
 	unpacked = StringReplaceWord(unpacked, "@pl", "@play", c_stringReplaceAll, false);
 	unpacked = StringReplaceWord(unpacked, "@st", "@subtitle", c_stringReplaceAll, false);
 	unpacked = StringReplaceWord(unpacked, "@sb", "@statbars", c_stringReplaceAll, false);
-	unpacked = StringReplaceWord(unpacked, "@amsg", "@actormsg", c_stringReplaceAll, false);
+	unpacked = StringReplaceWord(unpacked, "@amsg", "@actrmsg", c_stringReplaceAll, false);
 	unpacked = StringReplaceWord(unpacked, "@ad", "@adddamage", c_stringReplaceAll, false);
 	unpacked = StringReplaceWord(unpacked, "@ar", "@addrange", c_stringReplaceAll, false);
 	unpacked = StringReplaceWord(unpacked, "@rmr", "@armor", c_stringReplaceAll, false);

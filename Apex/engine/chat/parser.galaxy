@@ -65,7 +65,7 @@ const int libapx_PARSE_LIMIT = 1000;
 // libapx_chat_parse
 // =================
 // parses a chat message string for commands (each command separated by ";" )
-// built-in commands are "alias", "macro", and "var" which affect parsing
+// built-in commands are "_alias", "macro", and "var" which affect parsing
 // hence these are treated separately than all other commands
 void libapx_chat_parse(string msg, int player, unitgroup target) {
 	string current = msg;
@@ -133,7 +133,7 @@ void libapx_chat_parse(string msg, int player, unitgroup target) {
 		}
 
 		// check if performing reserved keyword commands (alias, macro, var)
-		if ( StringEqual( StringWord(current, 1), "alias", c_stringNoCase) ) {
+		if ( StringEqual( StringWord(current, 1), "_alias", c_stringNoCase) ) {
 			// returns true if using "alias create":
 			// in this case, the rest of msg is used up AS IS, so parsing considered finished
 			if( libapx_alias_command_redirect(current, player) ) {
