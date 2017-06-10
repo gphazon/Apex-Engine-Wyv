@@ -8,7 +8,7 @@
 
 // basic game player constants
 const int libapx_MAX_PLAYERS = 16; // max players supported is 16 (0 - neutral, 15 - hostile)
-const string libapx_PLAYER_BANK_NAME = "apexBank";
+const string libapx_PLAYER_BANK_NAME = "ApexBank";
 const int libapx_PLAYER_NEUTRAL = 0;
 const int libapx_PLAYER_HOSTILE = 15;
 const int libapx_UI_PANEL_NONE = -1;
