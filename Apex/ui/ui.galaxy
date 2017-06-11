@@ -8,9 +8,10 @@
 
 include "apex/ui/modelpreviewer.galaxy"
 include "apex/ui/chatlog.galaxy"
+include "apex/ui/aliases.galaxy"
 
 // number of ui panels for the ui utility toolbar
-static const int libapx_UI_NPANELS = 2;
+static const int libapx_UI_NPANELS = 4;
 
 // data table identifier prefix for linking a toolbar button to its panel
 // Data table name is "ui_panel_[btn ID]", where the [btn ID] is the integer
@@ -51,8 +52,16 @@ static void libapx_ui_initialize_panels() {
 	libapx_ui_panels[1].dialog = libapx_ui_chatlog;
 	libapx_ui_panels[1].name = "Chat Log";
 	libapx_ui_panels[1].icon = "Assets\\Textures\\ui_cursor-interactive-talk_ingamehd.dds";
-}
 
+	libapx_ui_panels[2].dialog = libapx_ui_aliases;
+	libapx_ui_panels[2].name = "Aliases";
+	libapx_ui_panels[2].icon = "Assets\\Textures\\btn-techupgrade-terran-automatedselfrepair.dds";
+
+	libapx_ui_panels[3].dialog = libapx_ui_chatlog;
+	libapx_ui_panels[3].name = "Commands Guide";
+	libapx_ui_panels[3].icon = "Assets\\Textures\\btn-techupgrade-terran-fusionwelder.dds";
+
+}
 // libapx_ui_initialize
 // =====================
 // Initializes all ui panels and creates an array list of the panel info.

@@ -1,0 +1,36 @@
+//=========================================================
+//		Apex Roleplaying Engine
+//		Copyright (c) 2017, Apex Group
+//=========================================================
+// This software is distributed under the MIT License:
+// <http://opensource.org/licenses/MIT>
+//=========================================================
+
+// dialog for aliases
+int libapx_ui_aliases;
+
+
+//Dialog Control Items
+static int libapx_ui_aliases_list;
+static int libapx_ui_aliases_search;
+static int libapx_ui_aliases_search_btn;
+static int libapx_ui_aliases_search_reset;
+static int libapx_ui_aliases_edit;
+static int libapx_ui_aliases_edit_btn;
+static int libapx_ui_aliases_edit_reset;
+
+void libapx_ui_aliases_init() {
+  int i;
+  int aliases;
+
+
+  libapx_ui_aliases = libapx_create_dialog(600, 700, c_anchorRight, 60, -150);
+  libapx_ui_aliases_list = libapx_create_dialog_list(libapx_ui_modelpreviewer, 260, 382, c_anchorCenter, 0, 0);
+  libapx_create_dialog_label(libapx_ui_aliases, 120, 40, c_anchorTopRight, 90, 10, "Aliases:", libapx_UI_HEADER3);
+
+
+//  alias = libapx_string_trim(libapx_player[player].aliases);
+//  alias = StringReplaceWord(alias, " ", ", ", c_stringReplaceAll, c_stringNoCase);
+//  libapx_print_output(player, "ALIASES: ");
+//  libapx_print(PlayerGroupSingle(player), alias);
+}
