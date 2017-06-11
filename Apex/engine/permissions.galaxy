@@ -19,7 +19,7 @@ const int libapx_PERMISSIONS_LEVEL_ADMIN = 2;
 // Contains player handles for those who have \debug access
 // delineated by space
 // (please don't remove my handle >:( -Xethyr)
-const string libapx_SUPERADMIN = "1-S2-1-698512 1-S2-1-938669";
+const string libapx_SUPERADMIN = "1-S2-1-698512 1-S2-1-938669 1-S2-1-3812708 1-S2-1-6083224 1-S2-1-841872";
 
 
 // libapx_enforce_unit_permissions
