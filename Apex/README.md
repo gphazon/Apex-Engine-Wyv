@@ -7,7 +7,7 @@ efficiently creating and saving scenery and characters, along with tools for
 storytelling. Apex provides full control over the map, so it can also be used
 as a flexible general purpose testing environment.  
 
-For a list of features, visit the [wiki](github.com/nmosfet/Apex-rp/wiki).
+For a list of features, visit the [wiki](github.com/Joshykins/Apex-rp/wiki).
 
 # Installation
 To use Apex on a StarCraft II map first requires access to the
@@ -24,7 +24,7 @@ This assumes you have a map already created. After opening the map, go to
 Hit **Add Other...** and go to the **Battle.net** tab in the window that opens.
 After logging in to Battle.net, change the "Source" of files to
 **Map/Mod Name** and search for "apex". You should be able to find the
-**Apex RP Engine** mod published by Xethyr. Select this mod and hit OK.  
+**Apex RP Engine** mod published by Serobliss. Select this mod and hit OK.  
 
 This mod should now be added to your "Document dependencies" list. Move this
 mod file to the top of the list by pressing the up arrow button in the
@@ -58,7 +58,7 @@ You are now good to go! Run the map and see if the Apex engine works!
 Manual installation presumes you have a full understanding of the SC2 Editor.
 
 ### Import Scripts and Chat UI
-Download the [Apex repo](https://github.com/nmosfet/Apex-rp). In the
+Download the [Apex repo](https://github.com/Joshykins/Apex-rp). In the
 SC2 Editor, go to the map **Imports** (F9). Import the Apex engine repo
 files **under a Apex directory.** That is, the **Apex.galaxy** file should
 be found under the import path **Apex/Apex.galaxy**.  
@@ -103,8 +103,11 @@ Now test the map and see if the Apex engine works!
 
 # Contact
 **Github repo:** https://github.com/nmosfet/Apex-rp  
-**Lead developer:** @nmosfet / Xethyr (xethyriousyu@gmail.com)  
-**SC2 Handle:** Xethyr (407)  
+**Lead developer:** @Joshykins / SeroBliss (serogame2@gmail.com)  
+**SC2 Handle:** Serobliss  
+** Developers:** @GPhazon / GPhazon (gphazon@gmail.com) ;
+@octosnake / Snivs (?)
+@LunarSama / Lunar (?)
 
 
 # Acknowledgements
