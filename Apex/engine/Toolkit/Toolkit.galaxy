@@ -1,0 +1,7 @@
+include "apex/Toolkit/ToolkitStorage.galaxy"
+include "apex/Toolkit/DefaultToolkit/DefaultToolkit.galaxy"
+
+
+void libapx_toolkit_init()
+{
+	libapx_toolkit_default_init();
