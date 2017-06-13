@@ -10,3 +10,6 @@ string libapx_getspawnertype()
 {
 	return libapx_spawnertype;
 }
+
+//player flags?
+const int c_apexIdPlayerFlagPrefersSpawnerUnit = (1 << 0);
