@@ -62,21 +62,3 @@ void libapx_settings_initdefault()
 	libapx_setting_setint(libapx_setting_int_neutralcomputer, 0);
 	libapx_setting_setint(libapx_setting_int_hostilecomputer, 15);
 	libapx_setting_setint(libapx_setting_int_rootadminplayer, 1);
-
-	// ids
-	libapx_setting_setint(libapx_setting_int_smarthostile, -1 );
-	i = 1; // skip 0 and 15, they are neutral/hostile
-	while(i != libapx_max_players - 1 ) {
-		if( PlayerType(i) == c_playerTypeComputer ) {
-			libapx_setting_setint(libapx_setting_int_smarthostile, i );
-		}
-		i = i + 1;
-	}
-
-	libapx_setting_setint(libapx_setting_int_maxspawnrate, 100);
-	libapx_setting_setint(libapx_setting_int_spawnperiod, 60);
-	libapx_setting_setint(libapx_setting_int_spawntimeout, 30);
-	
-	libapx_setting_use_xml = false;
-
-}
