@@ -1,0 +1,12 @@
+//don't die on me bb :(
+
+bool libapx_event_spawnerdeath(bool runConditions, bool runActions)
+{
+	unit died = EventUnit();
+	if( UnitGetType(died) != libapx_getspawnertype() ) {
+		return true;
+	}
+	
+	libapx_create_spawner(UnitGetOwner(died), null);
+	return true;
+}
