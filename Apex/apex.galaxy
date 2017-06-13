@@ -9,7 +9,7 @@
 include "apex/engine/engine.galaxy"
 include "apex/commands/commands.galaxy"
 include "apex/ui/ui.galaxy"
-
+include "apex/toolkit/toolkit.galaxy"
 // welcome message
 const string libapx_SPLASH_MESSAGE = "Welcome to Apex Roleplay Engine. This is still in beta, so there are a lot of features still being added. Type \">commands\" to get started!";
 
