@@ -43,7 +43,6 @@ bool libapx_alias_command_redirect(string command, int player) {
 	string subcommand = StringWord(command, 2);
 	string alias = "";
 	string content = "";
-
 	if( StringEqual(subcommand, "create", c_stringNoCase) ) {
 		alias = StringWord(command, 3);
 
