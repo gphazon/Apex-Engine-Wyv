@@ -40,8 +40,14 @@ void libapx_commands_initialize() {
 	libapx_chat_command_create("_zoom", libapx_command_zoom);
 	libapx_chat_command_create("_light", libapx_command_light);
 	libapx_chat_command_create("_blacklist", libapx_command_blacklist);
+<<<<<<< HEAD
 
 	// admin commands - done in cmd guide
+=======
+	libapx_chat_ccommand("_togglespawner", "libapx_command_togglespawner");
+	
+	// admin commands
+>>>>>>> 39602c827806c66d84aa9849a91e347d893be9e7
 	libapx_chat_command_create("!ban", libapx_command_ban);
 	libapx_chat_command_create("!disable", libapx_command_disable);
 	libapx_chat_command_create("!enable", libapx_command_enable);
@@ -50,6 +56,7 @@ void libapx_commands_initialize() {
 	libapx_chat_command_create("!promote", libapx_command_promote);
 	libapx_chat_command_create("!demote", libapx_command_demote);
 	libapx_chat_command_create("!remove", libapx_command_remove_player);
+	
 
 	// spawn command - done in cmd guide
 	libapx_chat_command_create("@spawn+", libapx_command_spawn_plus);

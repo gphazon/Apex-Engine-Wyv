@@ -1,0 +1,15 @@
+//global?
+// See libapx_set_spawner().
+static string libapx_spawnertype = "";
+void libapx_set_spawner(string lp_unittype)
+{
+	libapx_spawnertype = UnitTypeFromString(lp_unittype);
+}
+
+string libapx_getspawnertype()
+{
+	return libapx_spawnertype;
+}
+
+//player flags?
+const int c_apexIdPlayerFlagPrefersSpawnerUnit = (1 << 0);

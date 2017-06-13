@@ -305,3 +305,89 @@ string libapx_color_from_player_default(int plr) {
 string libapx_color_from_player(int plr) {
 	return libapx_color_from_player_default(PlayerGetColorIndex(plr, false));
 }
+//spawner stuff below
+
+unitgroup libapx_enforce_unit_permissions(unitgroup g)
+{
+    unit u;
+    int count;
+    count = UnitGroupCount(g, c_unitCountAlive);
+    while(count)
+    {
+        u = UnitGroupUnit(g, count);
+		if( (UnitGetOwner(u) != EventPlayer() && 
+		    PlayerType(UnitGetOwner(u)) != c_playerTypeNone &&
+		    PlayerType(UnitGetOwner(u)) != c_playerTypeComputer &&
+ 	            PlayerType(UnitGetOwner(u)) != c_playerTypeHostile &&
+		    PlayerType(UnitGetOwner(u)) != c_playerTypeNeutral &&
+	            !libapx_admin_haspermissions(EventPlayer(), UnitGetOwner(u), libapx_admin_permissionlevel_moderator)) ||
+		    UnitGetType(u) == libapx_getspawnertype() )
+		{
+			UnitGroupRemove(g, u);
+		}	
+		count = count - 1;
+    }
+    return g;
+}
+// return mouse position
+point libcrtx_mouse_position()
+{
+	return libcrtx_mouse_positions[EventPlayer()];
+}
+// Returns the spawner of the EventPlayer() or null.
+unit libapx_spawner()
+{
+	unitgroup g;
+	unit u;
+
+	g = UnitGroup(libapx_getspawnertype(), EventPlayer(), RegionEntireMap(), null, 1);
+	u = UnitGroupUnit(g, 1);
+	if( u == null )
+	{
+		libapx_debug("can't find spawner!");
+		return null;
+	}
+
+	return u;
+}
+
+// Returns either the mouse or spawner unit position, 
+
+point libapx_spawn_position()
+{
+	if( libapx_cortexid_has_playerflag(EventPlayer(), c_cortexIdPlayerFlagPrefersSpawnerUnit) ) {
+		return UnitGetPosition(libapx_spawner());
+	} else {
+		return libapx_mouse_position();
+	}
+}
+
+void libapx_create_spawner(int player, point p)
+{
+	// Create the spawner at the cursor's position.
+	if( p == null ) {
+		p = libapx_mouse_position();
+	}
+	
+	libNtve_gf_CreateUnitsAtPoint2(1, "Spawner", 0, player, p);
+	// Hotkey to control group 1
+	UnitControlGroupAddUnit(player, 1, UnitLastCreated());
+}
+
+void libapx_destroy_spawner()
+{
+	unit spawner = libapx_spawner();
+	if(spawner == null) {
+		return;
+	}
+	
+	UnitRemove(spawner);
+}
+
+
+
+
+
+
+
+
