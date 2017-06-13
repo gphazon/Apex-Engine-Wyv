@@ -47,8 +47,7 @@ static int libapx_ui_aliases_val;
 
 
 void libapx_ui_aliases_init() {
-  int i;
-  int aliases;
+
 
   //Main Dialog init
   libapx_ui_aliases = libapx_create_dialog(600, 600, c_anchorRight, 60, -100);

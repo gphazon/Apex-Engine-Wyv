@@ -9,7 +9,7 @@
 include "apex/ui/modelpreviewer.galaxy"
 include "apex/ui/chatlog.galaxy"
 include "apex/ui/aliases.galaxy"
-
+include "apex/ui/commands.galaxy"
 // number of ui pa nels for the ui utility toolbar
 static const int libapx_UI_NPANELS = 4;
 
@@ -45,22 +45,22 @@ static void libapx_ui_toolbar_init();
 // Sets array list of each dialog panel info struct.
 // These must be manually declared for each panel.
 static void libapx_ui_initialize_panels() {
-	libapx_ui_panels[0].dialog = libapx_ui_modelpreviewer;
-	libapx_ui_panels[0].name = "Model Previewer";
-	libapx_ui_panels[0].icon = "Assets\\Textures\\btn-ability-protoss-phaseshift.dds";
+	libapx_ui_panels[0].dialog = libapx_ui_commands;
+	libapx_ui_panels[0].name = "Commands Guide";
+	libapx_ui_panels[0].icon = "Assets\\Textures\\btn-techupgrade-terran-fusionwelder.dds";
 
-	libapx_ui_panels[1].dialog = libapx_ui_chatlog;
-	libapx_ui_panels[1].name = "Chat Log";
-	libapx_ui_panels[1].icon = "Assets\\Textures\\ui_cursor-interactive-talk_ingamehd.dds";
+	libapx_ui_panels[1].dialog = libapx_ui_modelpreviewer;
+	libapx_ui_panels[1].name = "Model Previewer";
+	libapx_ui_panels[1].icon = "Assets\\Textures\\btn-ability-protoss-phaseshift.dds";
 
-	libapx_ui_panels[2].dialog = libapx_ui_aliases;
-	libapx_ui_panels[2].name = "Aliases";
-	libapx_ui_panels[2].icon = "Assets\\Textures\\btn-techupgrade-terran-automatedselfrepair.dds";
+	libapx_ui_panels[2].dialog = libapx_ui_chatlog;
+	libapx_ui_panels[2].name = "Chat Log";
+	libapx_ui_panels[2].icon = "Assets\\Textures\\ui_cursor-interactive-talk_ingamehd.dds";
 
-	libapx_ui_panels[3].dialog = libapx_ui_chatlog;
-	libapx_ui_panels[3].name = "Commands Guide";
-	libapx_ui_panels[3].icon = "Assets\\Textures\\btn-techupgrade-terran-fusionwelder.dds";
-	libapx_print_output(1, IntToString(libapx_ui_panels[2].dialog));
+	libapx_ui_panels[3].dialog = libapx_ui_aliases;
+	libapx_ui_panels[3].name = "Aliases";
+	libapx_ui_panels[3].icon = "Assets\\Textures\\btn-techupgrade-terran-automatedselfrepair.dds";
+
 }
 // libapx_ui_initialize
 // =====================
@@ -75,13 +75,14 @@ void libapx_ui_initialize() {
 	libapx_ui_modelpreviewer_init();
 	libapx_ui_chatlog_init();
 	libapx_ui_aliases_init();
-
+	libapx_ui_commands_init();
 	// perform player unique panel initialization
 	for( player = 1; player < libapx_MAX_PLAYERS; player += 1 ) {
 		if( PlayerType(player) == c_playerTypeUser && PlayerStatus(player) == c_playerStatusActive ) {
 			libapx_ui_modelpreviewer_init_player(player);
 			libapx_ui_chatlog_init_player(player);
 			libapx_ui_aliases_init_player(player);
+			libapx_ui_commands_init_player(player);
 		}
 	}
 

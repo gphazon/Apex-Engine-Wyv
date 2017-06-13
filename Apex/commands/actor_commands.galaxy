@@ -123,7 +123,7 @@ void libapx_command_actormessage(int user, unitgroup u, string argv) {
 		}
 		else {
 			ActorSendTo(libNtve_gf_MainActorofUnit(UnitGroupLoopCurrent()), target, amsg);
-			libapx_unit_cache_update(UnitGroupLoopCurrent(), "@actrmsg", argv);
+			//libapx_unit_cache_update(UnitGroupLoopCurrent(), "@actrmsg", argv);
 		}
 		UnitGroupLoopStep();
 	}

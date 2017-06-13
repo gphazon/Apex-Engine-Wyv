@@ -1,0 +1,128 @@
+//=========================================================
+//		Apex Roleplaying Engine
+//		Copyright (c) 2017, Apex Group
+//=========================================================
+// This software is distributed under the MIT License:
+// <http://opensource.org/licenses/MIT>
+//=========================================================
+
+struct ui_command
+{
+	string cmd; //COMMAND NAME e.g. @spawn
+	string l1; //Lines
+	string l2; //
+	string l3;
+	string l4;
+	string l5;
+	string l6;
+	string l7;
+	string l8;
+	 //
+};
+ui_command[10][200] libapx_ui_commands_entry;
+
+//Incase you didn't know, galaxy is retareded and must have pre-defined arrays ?????????? K 10 cateogries 200 entries maybe?
+string libapx_ui_commands_str_categories;
+
+
+void libapx_ui_commands_entries_init() {
+	int i;//cmd increment
+	int j;//Category increment
+	libapx_ui_commands_str_categories = "admin alias permissions camera general actor region stats";
+
+	//admin
+	i = 1;
+	j = 1;
+	libapx_ui_commands_entry[j][i].cmd = "!ban";
+	libapx_ui_commands_entry[j][i].l1 = "Removes a player and their units ";//No longer than this
+	libapx_ui_commands_entry[j][i].l2 = "from the game";
+	libapx_ui_commands_entry[j][i].l3 = "ex. !ban color";
+	libapx_ui_commands_entry[j][i].l4 = "";
+	libapx_ui_commands_entry[j][i].l5 = "";
+	libapx_ui_commands_entry[j][i].l6 = "";
+	libapx_ui_commands_entry[j][i].l7 = "";
+	libapx_ui_commands_entry[j][i].l8 = "";
+	i+=1;
+	libapx_ui_commands_entry[j][i].cmd = "!remove";
+	libapx_ui_commands_entry[j][i].l1 = "Removes a player's units from the game";
+	libapx_ui_commands_entry[j][i].l2 = "ex. !remove color";
+	libapx_ui_commands_entry[j][i].l3 = "note: Works on self regardless of";
+	libapx_ui_commands_entry[j][i].l4 = "permissions";
+	libapx_ui_commands_entry[j][i].l5 = "";
+	libapx_ui_commands_entry[j][i].l6 = "";
+	libapx_ui_commands_entry[j][i].l7 = "";
+	libapx_ui_commands_entry[j][i].l8 = "";
+	i+=1;
+	libapx_ui_commands_entry[j][i].cmd = "!disable/!enable";
+	libapx_ui_commands_entry[j][i].l1 = "Disables or enables a player";//No longer than this
+	libapx_ui_commands_entry[j][i].l2 = "They can't issue commands while";
+	libapx_ui_commands_entry[j][i].l3 = " disabled";
+	libapx_ui_commands_entry[j][i].l4 = "ex. !disable color";
+	libapx_ui_commands_entry[j][i].l5 = "";
+	libapx_ui_commands_entry[j][i].l6 = "";
+	libapx_ui_commands_entry[j][i].l7 = "";
+	libapx_ui_commands_entry[j][i].l8 = "";
+	i+=1;
+	libapx_ui_commands_entry[j][i].cmd = "!mute/!unmute";
+	libapx_ui_commands_entry[j][i].l1 = "Mutes or unmutes a player";
+	libapx_ui_commands_entry[j][i].l2 = "Removes their ability to talk";
+	libapx_ui_commands_entry[j][i].l3 = "ex. !mute color";
+	libapx_ui_commands_entry[j][i].l4 = "";
+	libapx_ui_commands_entry[j][i].l5 = "";
+	libapx_ui_commands_entry[j][i].l6 = "";
+	libapx_ui_commands_entry[j][i].l7 = "";
+	libapx_ui_commands_entry[j][i].l8 = "";
+	i+=1;
+	libapx_ui_commands_entry[j][i].cmd = "!promote/!demote";
+	libapx_ui_commands_entry[j][i].l1 = "Gives moderator to a player";
+	libapx_ui_commands_entry[j][i].l2 = "ex. !promote color";
+	libapx_ui_commands_entry[j][i].l3 = "";
+	libapx_ui_commands_entry[j][i].l4 = "";
+	libapx_ui_commands_entry[j][i].l5 = "";
+	libapx_ui_commands_entry[j][i].l6 = "";
+	libapx_ui_commands_entry[j][i].l7 = "";
+	libapx_ui_commands_entry[j][i].l8 = "";
+	i = 1;
+	j = 2;
+	//alias
+	i = 1;
+	j = 3;
+	//permissions
+	i = 1;
+	j = 4;
+	//camera
+	i = 1;
+	j = 5;
+	//general
+	libapx_ui_commands_entry[j][i].cmd = "@spawn";
+	libapx_ui_commands_entry[j][i].l1 = "Spawns a unit.";
+	libapx_ui_commands_entry[j][i].l2 = "ex. @spawn marine 1";
+	libapx_ui_commands_entry[j][i].l3 = "Note.";
+	libapx_ui_commands_entry[j][i].l4 = "You can also spawn on a region";
+	libapx_ui_commands_entry[j][i].l5 = "ex. @spawn marine 1 #region";
+	libapx_ui_commands_entry[j][i].l6 = "";
+	libapx_ui_commands_entry[j][i].l7 = "";
+	libapx_ui_commands_entry[j][i].l8 = "";
+	i+=1;
+	libapx_ui_commands_entry[j][i].cmd = "@spawn+";
+	libapx_ui_commands_entry[j][i].l1 = "Spawns a unit too.";
+	libapx_ui_commands_entry[j][i].l2 = "ex. @spawn+ marine";
+	libapx_ui_commands_entry[j][i].l3 = "Note. Same as @spawn";
+	libapx_ui_commands_entry[j][i].l4 = "Unless no count provided, then";
+	libapx_ui_commands_entry[j][i].l5 = "click-based spawn manipulation is ";
+	libapx_ui_commands_entry[j][i].l6 = "enabled.";
+	libapx_ui_commands_entry[j][i].l7 = "";
+	libapx_ui_commands_entry[j][i].l8 = "";
+	i = 1;
+	j = 6;
+	//actor
+	i = 1;
+	j = 7;
+	//region
+	i = 1;
+	j = 8;
+	//stats
+	i = 1;
+	j = 9;
+	//ye fUCKtHISbOI
+}
