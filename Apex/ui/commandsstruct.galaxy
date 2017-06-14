@@ -33,7 +33,7 @@ void libapx_ui_commands_entries_init() {
 	//admin
 	i = 1;
 	j = 1;
-	libapx_ui_commands_entry[j][i].cmd = "!ban";
+	libapx_ui_commands_entry[j][i].cmd = "!kick";
 	libapx_ui_commands_entry[j][i].l1 = "Removes a player and their units ";//No longer than this
 	libapx_ui_commands_entry[j][i].l2 = "from the game";
 	libapx_ui_commands_entry[j][i].l3 = "ex. !ban color";

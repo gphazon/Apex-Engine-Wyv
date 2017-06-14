@@ -48,17 +48,3 @@ void libapx_settings_initialize() {
 
 	libapx_settings.max_spawn_count = 20;
 }
-
-//spawn init
-void libapx_settings_initdefault()
-{
-	int i;
-	libapx_set_spawner("spawner");
-
-	libapx_setting_setint(libapx_setting_int_maxspawncount, 24);
-	libapx_setting_setfixed(libapx_setting_fixed_minscale, 0.05);
-	libapx_setting_setfixed(libapx_setting_fixed_maxscale, 10.0);
-
-	libapx_setting_setint(libapx_setting_int_neutralcomputer, 0);
-	libapx_setting_setint(libapx_setting_int_hostilecomputer, 15);
-	libapx_setting_setint(libapx_setting_int_rootadminplayer, 1);

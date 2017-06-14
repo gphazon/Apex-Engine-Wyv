@@ -1,17 +1,38 @@
 
-bool libapx_is_integer(string s) //Stolen from Cortex ???? hope it works ??? :)
+bool libapx_is_fixed(string s)
 {
 	int x = 1;
 	string c1 = "";
-	while( x != StringLength(s) )
+	while( x != (StringLength(s)+1) )
 	{
 		c1 = StringSub(s, x, x);
-		if( !(c1 == "0" || c1 == "1" || c1 == "2" || c1 == "3" || c1 == "4" || c1 == "5" || c1 == "6" || c1 == "7" || c1 == "8" || c1 == "9") ) {
+		if( !(c1 == "0" || c1 == "1" || c1 == "2" || c1 == "3" || c1 == "4" || c1 == "5" || c1 == "6" || c1 == "7" || c1 == "8" || c1 == "9" || c1 == ".") ) {
 			return false;
 		}
 		x += 1;
 	}
 	return true;
 }
+
+string libapx_scalerapply(string s) {
+
+	string moddedOffSet = s;
+	fixed x;
+	fixed y;
+	fixed z;
+	string x2;
+	string y2;
+	string z2;
+	s = StringReplaceWord(s, ",", " ", 200, false);
+	x = StringToFixed(StringWord(s, 1));
+	y = StringToFixed(StringWord(s, 2));
+	z = StringToFixed(StringWord(s, 3));
+	x2 = FixedToString(x*libapx_player[EventPlayer()].scaler, 4);
+	y2 = FixedToString(y*libapx_player[EventPlayer()].scaler, 4);
+	z2 = FixedToString(z*libapx_player[EventPlayer()].scaler, 4);
+	moddedOffSet = x2+","+y2+","+z2;
+
+	return moddedOffSet;
+
+}
 ///Don't need anymore
-  

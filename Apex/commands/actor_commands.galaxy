@@ -174,6 +174,7 @@ void libapx_command_scale(int user, unitgroup u, string argv) {
 	string param_y;
 	string param_z;
 	string param_time;
+	string scale;
 	int param_offset = 0;
 	string target = libapx_ACTOR_REF_MAIN;
 
@@ -215,9 +216,13 @@ void libapx_command_scale(int user, unitgroup u, string argv) {
 	if( param_time != "" ) {
 		time = StringToFixed(param_time);
 	}
+	scale = FixedToString(x, 4) + "," + FixedToString(y, 4)  + "," + FixedToString(z, 4);
+	libapx_print_error(1,scale);
+	scale = libapx_scalerapply(scale);
+	libapx_print_error(1,scale);
 
 	libapx_apply_actormsg(u, target, argv, "@scale",
-						  "SetScale " + FixedToString(x, 4) + "," + FixedToString(y, 4)  + "," + FixedToString(z, 4) + " " + FixedToString(time, 3));
+						  "SetScale " + scale + " " + FixedToString(time, 3));
 	return;
 }
 
@@ -556,6 +561,40 @@ void libapx_command_statbars(int user, unitgroup u, string argv) {
 	return;
 }
 
+//libapx_command_setscaler
+//==========================
+//Sets the scale modifier for units, this intern is added in calcultions for
+//@attach translations and scales.
+void libapx_command_setscaler(int user, unitgroup u, string argv) {
+	fixed scaler;
+	if (StringWord(argv,2) == "") {
+		libapx_print(PlayerGroupSingle(user),"Input something");
+	}
+	else if (StringWord(argv,3) != "") {
+		libapx_print(PlayerGroupSingle(user),"SetScaler only takes one value");
+	}
+	else if (libapx_is_fixed(StringWord(argv, 2)) == false) {
+		libapx_print(PlayerGroupSingle(user),"SetScaler takes numbers");
+	}
+	else {
+		libapx_print(PlayerGroupSingle(user),"Scaler set to "+StringWord(argv,2));
+		scaler = StringToFixed(StringWord(argv,2));
+		libapx_player[EventPlayer()].scaler = scaler;
+	}
+
+
+}
+
+//libapx_print_error(PlayerGroupSingle(user), "Scaler takes one arguement")
+
+// libapx_command_attach
+// =====================
+// Attaches an actor or a model to a unit (modified @attach+ from Cortex Forge)
+// Can optionally specify coordinate offsets, rotations, and site operations
+// syntax: @attach (->[ref]) (-m) [Actor/Model] [Point_#] [offX] [offY] [offZ] (-r [rotX] [rotY] [rotZ]) [SOp1] [SOp2] [SOp3]...
+
+
+
 // libapx_command_attach
 // =====================
 // Attaches an actor or a model to a unit (modified @attach+ from Cortex Forge)
@@ -725,8 +764,10 @@ void libapx_command_attach(int user, unitgroup u, string argv) {
 	}
 
 	//FINALLY create the actor msg (before send)
+
 	actormsg = "AttachModelOffset " + actr + " " + model + " " + apoint;
 	if(offset != null) {
+		offset = libapx_scalerapply(offset);
 		actormsg = actormsg + " " + offset;
 	}
 	if(rotation != null) {

@@ -9,10 +9,6 @@
 // LOAD ENGINE DEPENDENCIES:
 // (dependency order matters)
 
-// scripts
-// =============
-// Contains various utility functions used throughout engine
-include "apex/engine/utility/scripts.galaxy"
 
 // ui_helper
 // =============
@@ -41,10 +37,17 @@ include "apex/engine/settings.galaxy"
 // Contains string name for player bank
 include "apex/engine/player.galaxy"
 
+
 // output
 // =============
 // All functions for outputting text to the custom chat frame
 include "apex/engine/output.galaxy"
+
+// scripts
+// =============
+// Contains various utility functions used throughout engine
+include "apex/engine/utility/scripts.galaxy"
+
 
 // bank
 // =============
@@ -103,6 +106,7 @@ include "apex/engine/events/events.galaxy"
 //    disables any player on host's blacklist
 // player usage of blacklist handled by blacklist in general_commands
 include "apex/engine/blacklist.galaxy"
+
 
 // debug
 // =============
