@@ -60,7 +60,7 @@ void libapx_chat_command_create(string command, libapx_command_type func) {
 // Max iterations for number of aliases and macros replaced by parser
 // per parser function call. This is to break from infinite loops caused
 // by recursive aliases or macros.
-const int libapx_PARSE_LIMIT = 1000;
+const int libapx_PARSE_LIMIT = 4000;
 
 // libapx_chat_parse
 // =================
@@ -75,9 +75,7 @@ void libapx_chat_parse(string msg, int player, unitgroup target) {
 	int semicolon_index;
 	int next_semicolon_index;
 	libapx_command_type func; // command ref test
-
 	libapx_player[player].context = target;
-
 	// manual interrupt flag to stop parsing, intialize as false
 	libapx_player[player].done_parsing = false;
 
@@ -95,6 +93,7 @@ void libapx_chat_parse(string msg, int player, unitgroup target) {
 		// -> "\;" will print out a ";" in the chat, so we must find "\;" in a message
 		semicolon_index = StringFind(msg, ";", c_stringNoCase);
 		while( true ) {
+
 			if( semicolon_index ) {
 				// if this is an escaped semicolon "\;", find the next semicolon
 				if( StringSub(msg, semicolon_index - 1, semicolon_index - 1) == "\\" ) {
@@ -125,7 +124,6 @@ void libapx_chat_parse(string msg, int player, unitgroup target) {
 		}
 		// after getting current, replace escape sequence for semicolon: "\;" -> ";"
 		current = StringReplaceWord(current, "\\;", ";", c_stringReplaceAll, false);
-
 		// go no further with parsing if current string is empty
 		// (this occurs if player types a string of ";;;;;")
 		if( current == "" ) {
@@ -134,6 +132,7 @@ void libapx_chat_parse(string msg, int player, unitgroup target) {
 
 		// check if performing reserved keyword commands (alias, macro, var)
 		if ( StringEqual( StringWord(current, 1), "_alias", c_stringNoCase) ) {
+
 			// returns true if using "alias create":
 			// in this case, the rest of msg is used up AS IS, so parsing considered finished
 			if( libapx_alias_command_redirect(current, player) ) {
@@ -155,9 +154,10 @@ void libapx_chat_parse(string msg, int player, unitgroup target) {
 
 		// replace aliases (returns true if aliases):
 		// if aliases subbed, affix to front of msg and reparse
+
 		current_alias_subbed = libapx_alias_sub(current, player, 0);
-		if( current_alias_subbed != current ) {
-			msg = current_alias_subbed + ";" + msg;
+		if( (current_alias_subbed != current) ) {
+			msg = current_alias_subbed + " ;" + msg;
 			count += 1;
 			continue;
 		}

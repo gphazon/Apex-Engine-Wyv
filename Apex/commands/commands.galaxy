@@ -21,7 +21,7 @@ void libapx_commands_initialize() {
 	// libapx_chat_command_create(">test", libapx_command_experiment);
 	// libapx_chat_command_create(">sort", libapx_command_sort);
 
-	// general commands
+	// general commands - done in cmd guide
 	libapx_chat_command_create("_info", libapx_command_info);
 	libapx_chat_command_create("_commands", libapx_command_list_commands);
 	libapx_chat_command_create("_delay", libapx_command_delay);
@@ -38,10 +38,15 @@ void libapx_commands_initialize() {
 	libapx_chat_command_create("_terrazine", libapx_command_terrazine);
 	libapx_chat_command_create("_supply", libapx_command_supply);
 	libapx_chat_command_create("_zoom", libapx_command_zoom);
-	libapx_chat_command_create("_light", libapx_command_light);
+	libapx_chat_command_create("_roll", libapx_command_roll);
+	libapx_chat_command_create("_doodads", libapx_command_doodads);
+
+	//Permissions - done in cmd guide
 	libapx_chat_command_create("_blacklist", libapx_command_blacklist);
 
+
 	// admin commands - done in cmd guide
+	libapx_chat_command_create("!light", libapx_command_light);
 	libapx_chat_command_create("!kick", libapx_command_ban);
 	libapx_chat_command_create("!disable", libapx_command_disable);
 	libapx_chat_command_create("!enable", libapx_command_enable);
@@ -51,17 +56,32 @@ void libapx_commands_initialize() {
 	libapx_chat_command_create("!demote", libapx_command_demote);
 	libapx_chat_command_create("!remove", libapx_command_remove_player);
 
+
 	// spawn command - done in cmd guide
 	libapx_chat_command_create("@spawn+", libapx_command_spawn_plus);
 	libapx_chat_command_create("@spawn", libapx_command_spawn);
-	// unit commands
-	libapx_chat_command_create("@doodad", libapx_command_doodads);
+
+	// unit commands - done in cmd guide
 	libapx_chat_command_create("@kill", libapx_command_kill);
 	libapx_chat_command_create("@remove", libapx_command_remove);
 	libapx_chat_command_create("@removearea", libapx_command_removearea);
 	libapx_chat_command_create("@cache", libapx_command_cache);
 	libapx_chat_command_create("@give", libapx_command_give);
 	libapx_chat_command_create("@renameall", libapx_command_renameall);
+	libapx_chat_command_create("@height", libapx_command_height);
+	libapx_chat_command_create("@color", libapx_command_color);
+	libapx_chat_command_create("@face", libapx_command_face);
+	libapx_chat_command_create("@subtitle", libapx_command_subtitle);
+	libapx_chat_command_create("@tooltip", libapx_command_tooltip);
+	libapx_chat_command_create("@copy", libapx_command_copy);
+	libapx_chat_command_create("@kills", libapx_command_kills);
+	libapx_chat_command_create("@level", libapx_command_level);
+	libapx_chat_command_create("@label", libapx_command_label);
+	libapx_chat_command_create("@radius", libapx_command_radius);
+	libapx_chat_command_create("@state", libapx_command_state);
+	libapx_chat_command_create("@pos", libapx_command_position);
+
+	//stats - done in commands guide
 	libapx_chat_command_create("@behaviors", libapx_command_behaviors);
 	libapx_chat_command_create("@addbehavior", libapx_command_addbehavior);
 	libapx_chat_command_create("@removebehavior", libapx_command_removebehavior);
@@ -78,11 +98,8 @@ void libapx_commands_initialize() {
 	libapx_chat_command_create("@shieldsregen", libapx_command_shieldsregen);
 	libapx_chat_command_create("@energyregen", libapx_command_energyregen);
 	libapx_chat_command_create("@speed", libapx_command_speed);
-	libapx_chat_command_create("@height", libapx_command_height);
-	libapx_chat_command_create("@color", libapx_command_color);
 	libapx_chat_command_create("@invulnerable", libapx_command_invulnerable);
 	libapx_chat_command_create("@vulnerable", libapx_command_vulnerable);
-	libapx_chat_command_create("@face", libapx_command_face);
 	libapx_chat_command_create("@adddamage", libapx_command_damage);
 	libapx_chat_command_create("@removedamage", libapx_command_damage);
 	libapx_chat_command_create("@addrange", libapx_command_range);
@@ -91,17 +108,10 @@ void libapx_commands_initialize() {
 	libapx_chat_command_create("@shieldsarmor", libapx_command_armor);
 	libapx_chat_command_create("@weaponspeed", libapx_command_weaponspeed);
 	libapx_chat_command_create("@weaponspeedall", libapx_command_weaponspeedall);
-	libapx_chat_command_create("@subtitle", libapx_command_subtitle);
-	libapx_chat_command_create("@tooltip", libapx_command_tooltip);
-	libapx_chat_command_create("@copy", libapx_command_copy);
 	libapx_chat_command_create("@effect", libapx_command_effect);
-	libapx_chat_command_create("@kills", libapx_command_kills);
-	libapx_chat_command_create("@level", libapx_command_level);
-	libapx_chat_command_create("@label", libapx_command_label);
-	libapx_chat_command_create("@radius", libapx_command_radius);
-	libapx_chat_command_create("@state", libapx_command_state);
 
-	// unit visual (actor) commands
+	// unit visual (actor) commands - done in cmd guide
+	libapx_chat_command_create("@decal", libapx_command_decal);
 	libapx_chat_command_create("@setscaler", libapx_command_setscaler);
 	libapx_chat_command_create("@actrmsg", libapx_command_actormessage);
 	libapx_chat_command_create("@target", libapx_command_actoralias);
@@ -113,7 +123,7 @@ void libapx_commands_initialize() {
 	libapx_chat_command_create("@rotate", libapx_command_rotate);
 	libapx_chat_command_create("@statbars", libapx_command_statbars);
 	libapx_chat_command_create("@attach", libapx_command_attach);
-//	libapx_chat_command_create("@attach-", libapx_command_attach_minus);
+	libapx_chat_command_create("@attach-", libapx_command_attach_minus);
 
 	// chat commands
 	libapx_chat_command_create("@narrate", libapx_command_narrate);
@@ -121,7 +131,7 @@ void libapx_commands_initialize() {
 	libapx_chat_command_create("@setname", libapx_command_setname);
 	libapx_chat_command_create("@setnamecolor", libapx_command_setnamecolor);
 
-	// region commands
+	// region commands - Done in cmd guide
 	libapx_chat_command_create("#create", libapx_command_region_create);
 	libapx_chat_command_create("#remove", libapx_command_region_remove);
 	libapx_chat_command_create("#removeall", libapx_command_region_removeall);

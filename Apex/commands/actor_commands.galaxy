@@ -217,9 +217,9 @@ void libapx_command_scale(int user, unitgroup u, string argv) {
 		time = StringToFixed(param_time);
 	}
 	scale = FixedToString(x, 4) + "," + FixedToString(y, 4)  + "," + FixedToString(z, 4);
-	libapx_print_error(1,scale);
-	scale = libapx_scalerapply(scale);
-	libapx_print_error(1,scale);
+
+	scale = libapx_scalerapply(scale); //Applies scaler
+
 
 	libapx_apply_actormsg(u, target, argv, "@scale",
 						  "SetScale " + scale + " " + FixedToString(time, 3));
@@ -344,6 +344,15 @@ void libapx_command_tint(int user, unitgroup u, string argv) {
 
 	return;
 }
+// libapx_command_decal
+// ===================
+// Changes the model of the main actor of a unit (modified from ctx)
+// Syntax: @modelswap (->[ref]) [model] [variation]
+void libapx_command_decal(int user, unitgroup u, string argv) {
+	libapx_print_output(EventPlayer(), "Not implemented yet.");
+	return;
+}
+
 
 // libapx_command_modelswap
 // ======================
@@ -587,11 +596,69 @@ void libapx_command_setscaler(int user, unitgroup u, string argv) {
 
 //libapx_print_error(PlayerGroupSingle(user), "Scaler takes one arguement")
 
-// libapx_command_attach
+// libapx_command_attach_minus
 // =====================
-// Attaches an actor or a model to a unit (modified @attach+ from Cortex Forge)
-// Can optionally specify coordinate offsets, rotations, and site operations
-// syntax: @attach (->[ref]) (-m) [Actor/Model] [Point_#] [offX] [offY] [offZ] (-r [rotX] [rotY] [rotZ]) [SOp1] [SOp2] [SOp3]...
+// Replicated old attach of Cortex
+void libapx_command_attach_minus(int user, unitgroup u, string argv) {
+	actor sactor;
+	string actr;
+	string scope;
+	string apoint;
+	unitgroup g = u;
+	int i;
+	bool loop = true;
+	string attachPoints = "Origin Center Damage Engine Hardpoint Head Hit Overhead RallyPoint StatusBar Left Right Target Turret TurretY TurretZ Upgrade Weapon WeaponLeft WeaponRight Left Right";
+
+	actr = StringWord(argv,2);
+	apoint = StringWord(argv,3);
+
+	//StringWord(argv,2); //1st , 2nd after ect
+	if (apoint == "") {
+		apoint = "Origin";
+	}
+
+	// Let's make sure that the apoint is a valid attachment point.
+
+	i = 1;
+	while( StringWord(attachPoints, i) != "" ) {
+		if( StringEqual(apoint, StringWord(attachPoints, i), false) ) {
+			apoint = StringWord(attachPoints, i);
+			i = -1;
+			break;
+		}
+		i = i + 1;
+	}
+
+	if( i != -1 ) {
+		apoint = "Origin";
+		libapx_print_output(EventPlayer(), "Attachpoint was invalid, defaulting to origin");
+	}
+
+ // do catalog check for actor
+	actr = libapx_catalog_get(c_gameCatalogActor, actr);
+	if(actr == null) {
+		libapx_print_output(user, "<c val=\"ff0000\">Unable to attach actor</c>: No such actor exists.");
+		return;
+	}
+	scope = CatalogEntryScope( c_gameCatalogActor, actr );
+	if( scope == "CActorEventMacro" || scope == "CActorSound" ) {
+		libapx_print_output(user, "<c val=\"ff0000\">Unable to attach actor</c>: Invalid actor.");
+		return;
+	}
+
+
+		UnitGroupLoopBegin(g);
+		while(!UnitGroupLoopDone())
+		{
+			// Attach the actor to the unit
+			libNtve_gf_AttachActorToUnit(UnitGroupLoopCurrent(), actr, apoint);
+			if(!StringContains(actr, "TalkIcon", c_stringAnywhere, c_stringNoCase)) {
+			//	libcrtx_unitCache_update(UnitGroupLoopCurrent(), "@attach", libcrtx_chat_get_parse_line(EventPlayer()));
+			}
+			UnitGroupLoopStep();
+		}
+		UnitGroupLoopEnd();
+}
 
 
 
@@ -614,7 +681,7 @@ void libapx_command_attach(int user, unitgroup u, string argv) {
 	string SOp;
 	string siteops = "";
 	string actormsg;
-	string attachPoints = "Origin Center Damage Engine Hardpoint Head Hit Overhead RallyPoint StatusBar Left Right Target Turret TurretY TurretZ Upgrade Weapon WeaponLeft WeaponRight";
+	string attachPoints = "Origin Center Damage Engine Hardpoint Head Hit Overhead RallyPoint StatusBar Left Right Target Turret TurretY TurretZ Upgrade Weapon WeaponLeft WeaponRight Left Right";
 	string target = libapx_ACTOR_REF_MAIN;
 
 	// get actor reference target

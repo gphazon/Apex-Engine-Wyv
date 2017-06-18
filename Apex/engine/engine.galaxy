@@ -115,8 +115,8 @@ include "apex/engine/debug.galaxy"
 
 // engine version
 const int libapx_BUILD_VERSION = 1;
-const int libapx_BUILD_SUB_VERSION = 2;
-const string libapx_BUILD_VERSION_MODIFIER = ".9-beta";
+const int libapx_BUILD_SUB_VERSION = 0;
+const string libapx_BUILD_VERSION_MODIFIER = "";
 
 void libapx_engine_initialize() {
 	int player = 1;

@@ -12,9 +12,13 @@
 // redirects processing as needed:
 // IF message begins with "<<" , directly output the message
 // ELSE, parse message
+
+
 bool libapx_process_chat_event(bool testConds, bool runActions) {
+
+
 	unitgroup target = UnitGroupEmpty();
-	libapx_player[EventPlayer()].chat_msg = libapx_string_trim(EventChatMessage(false));
+	libapx_player[EventPlayer()].chat_msg = libapx_string_trim(EventChatMessage(false)); //Where injection of chat occurs
 
 	// "<< " directly dumps message to OOC (if player not muted)
 	if ( StringWord( libapx_player[EventPlayer()].chat_msg, 1) == "<<" &&  !libapx_player[EventPlayer()].muted ) {

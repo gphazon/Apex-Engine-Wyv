@@ -206,7 +206,7 @@ void libapx_command_control(int user, unitgroup u, string argv) {
 	if( original == "all" ) {
 		while( i != libapx_MAX_PLAYERS ) {
 			// Issue this command over the next color.
-			libapx_chat_parse(">control " + libapx_color_from_player(i) + " " + target_player, user, libapx_player[user].context);
+			libapx_chat_parse("_control " + libapx_color_from_player(i) + " " + target_player, user, libapx_player[user].context);
 			i += 1;
 		}
 		return;
@@ -273,7 +273,7 @@ void libapx_command_uncontrol(int user, unitgroup u, string argv) {
 	if( original == "all" ) {
 		while( i != libapx_MAX_PLAYERS ) {
 			// Issue this command over the next color.
-			libapx_chat_parse(">control " + libapx_color_from_player(i) + " " + target_player, user, libapx_player[user].context);
+			libapx_chat_parse("_control " + libapx_color_from_player(i) + " " + target_player, user, libapx_player[user].context);
 			i += 1;
 		}
 		return;
@@ -340,7 +340,7 @@ void libapx_command_ally(int user, unitgroup u, string argv) {
 	if( original == "all" ) {
 		while( i != libapx_MAX_PLAYERS ) {
 			// Issue this command over the next color.
-			libapx_chat_parse(">ally " + libapx_color_from_player(i) + " " + target_player, user, libapx_player[user].context);
+			libapx_chat_parse("_ally " + libapx_color_from_player(i) + " " + target_player, user, libapx_player[user].context);
 			i += 1;
 		}
 		return;
@@ -402,7 +402,7 @@ void libapx_command_unally(int user, unitgroup u, string argv) {
 	if( original == "all" ) {
 		while( i != libapx_MAX_PLAYERS ) {
 			// Issue this command over the next color.
-			libapx_chat_parse(">ally " + libapx_color_from_player(i) + " " + target_player, user, libapx_player[user].context);
+			libapx_chat_parse("_ally " + libapx_color_from_player(i) + " " + target_player, user, libapx_player[user].context);
 			i += 1;
 		}
 		return;
@@ -459,6 +459,46 @@ void libapx_command_remove_player(int user, unitgroup u, string argv) {
 	return;
 }
 
+// libapx_command_roll
+// ===================
+// rolls a random number
+void libapx_command_roll(int user, unitgroup u, string argv) {
+	string snum = StringWord(argv,2);
+	string snumTo = StringWord(argv,3);
+	int tableHost;
+	int tableGambler = 1;
+	int winnings = 0;
+	//Check if we have a xDy input format. -F
+	if(StringContains(snum, "d", c_stringAnywhere, false)) {
+		//We have xDy, check if a number of dice has been specified. -F
+		if(StringSub(snum, 1, StringFind(snum,"d",false)-1) != "") {
+			//We have a dice count, so let's find it, then run our randomizer loop. -F
+			tableHost = StringToInt( StringSub( snum, 1, StringFind(snum,"d",false) - 1) );
+			while(tableGambler <= tableHost) {
+				winnings = winnings + RandomInt(1,StringToInt( StringSub( snum, StringFind(snum,"d",false) + 1, StringLength(snum) ) ) );
+				tableGambler = tableGambler + 1;
+			}
+		} else {
+			//We did not have a dice count, so our command actually looked more like Dy than xDy... let's just run one die then. -F
+			winnings = RandomInt(1,StringToInt( StringSub( snum, StringFind(snum,"d",false) + 1, StringLength(snum) ) ) );
+		}
+		libapx_print_text(PlayerGroupAll(), libapx_player_name_colored(user) + StringToText(" rolled ") + StringToText(snum) + StringToText(" and got: ") + IntToText(winnings));
+		return;
+	}
+	//Did not have a xDy input format, check for second parameter. -F
+	if(snumTo != "") {
+		libapx_print_text(PlayerGroupAll(),libapx_player_name_colored(EventPlayer()) + StringToText(" rolled from ") + StringToText(snum) + StringToText(" to ") + StringToText(snumTo) + StringToText(" and got: ") + IntToText(RandomInt(StringToInt(snum),StringToInt(snumTo))));
+		return;
+	} else if (snum != "") {
+		libapx_print_text(PlayerGroupAll(),libapx_player_name_colored(EventPlayer()) + StringToText(" rolled from one to ") + StringToText(snum) + StringToText(" and got: ") + IntToText(RandomInt(1,StringToInt(snum))));
+		return;
+	}
+	libapx_print_text(PlayerGroupAll(),libapx_player_name_colored(EventPlayer()) + StringToText(" rolled from 1 to 100 and got: ") + IntToText(RandomInt(1,100)));
+	return;
+
+}
+
+
 // libapx_command_search
 // ===================
 // searches a catalog for a specific keyword, then prints out
@@ -512,15 +552,21 @@ void libapx_command_search(int user, unitgroup u, string argv) {
 	else if(type == "weapon" || type == "weapons") {
 		catalog = c_gameCatalogWeapon;
 	}
+	else if(type == "sound" || type == "sounds") {
+		catalog = c_gameCatalogSound;
+	}
+	else if(type == "soundtrack" || type == "soundtracks") {
+		catalog = c_gameCatalogSoundtrack;
+	}
 	else if(libapx_player[user].search_index == -1) {
-		libapx_print_output(user, "Usage: >search [ability|actor|behavior|weapon|validator|upgrade|unit|turret|light|footprint|model|decal] [what to search for]");
+		libapx_print_output(user, "Usage: _search [ability|actor|behavior|weapon|validator|upgrade|unit|turret|light|footprint|model|decal] [what to search for]");
 		return;
 	}
 
 	i = CatalogEntryCount(catalog);
 
 	// Allow for multi-page query results
-	if(type == "") {
+	if((type == "") || (type == ";")) {
 		i = libapx_player[user].search_index;
 		catalog = libapx_player[user].search_catalog;
 		query  = libapx_player[user].search_last_query;
@@ -548,7 +594,7 @@ void libapx_command_search(int user, unitgroup u, string argv) {
 	}
 
 	if(count == 0 && i != 0) {
-		libapx_print_output(user, "<h>More results exist. Type \">search\" to see them.</h>");
+		libapx_print_output(user, "<h>More results exist. Type _search to see them.</h>");
 		libapx_player[user].search_index = i;
 		libapx_player[user].search_last_query = query;
 		libapx_player[user].search_catalog = catalog;
@@ -574,7 +620,7 @@ void libapx_command_replace(int user, unitgroup u, string argv) {
 	unitgroup g = libapx_player[user].context;
 
 	if( source == "" || replace == "" ) {
-		libapx_print_output(user, "Usage: >replace [ability|actor|behavior|weapon|validator|upgrade|unit|turret|light|footprint|model|decal] [SOURCE] [REPLACEMENT]");
+		libapx_print_output(user, "Usage: _replace [ability|actor|behavior|weapon|validator|upgrade|unit|turret|light|footprint|model|decal] [SOURCE] [REPLACEMENT]");
 		return;
 	}
 
@@ -617,8 +663,14 @@ void libapx_command_replace(int user, unitgroup u, string argv) {
 	else if(type == "weapon" || type == "weapons") {
 		catalog = c_gameCatalogWeapon;
 	}
+	else if(type == "sound" || type == "sounds") {
+		catalog = c_gameCatalogSound;
+	}
+	else if(type == "soundtrack" || type == "soundtracks") {
+		catalog = c_gameCatalogSoundtrack;
+	}
 	else {
-		libapx_print_output(user, "Usage: >replace [ability|actor|behavior|weapon|validator|upgrade|unit|turret|light|footprint|model|decal] [SOURCE] [REPLACEMENT]");
+		libapx_print_output(user, "Usage: _replace [ability|actor|behavior|weapon|validator|upgrade|unit|turret|light|footprint|model|decal] [SOURCE] [REPLACEMENT]");
 		return;
 	}
 
@@ -843,7 +895,7 @@ void libapx_command_doodads(int user, unitgroup u, string argv) {
 	region r;
 
 	if( param == "" ) { // no input param,
-		libapx_print_output(user, "Command syntax: >doodads [#region]/[radius] on/off");
+		libapx_print_output(user, "Command syntax: <c val=\"1abc9c\">_doodads</c> [#region]/[radius] on/off");
 		return;
 	}
 

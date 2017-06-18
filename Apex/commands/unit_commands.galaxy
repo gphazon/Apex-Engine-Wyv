@@ -30,6 +30,45 @@ void libapx_command_remove(int user, unitgroup u, string argv) {
 	UnitGroupLoopEnd();
 }
 
+// libapx_command_position
+// =====================
+// sets the position of a unit
+
+void libapx_command_position (int user, unitgroup u, string argv) {
+	fixed x;
+	fixed y;
+	int p = EventPlayer();
+	unitgroup g = u;
+
+
+	if(StringWord( argv, 2) == "") { //display unit coords
+		UnitGroupLoopBegin(g);
+		while(!UnitGroupLoopDone())
+		{
+			libapx_print_output(p, UnitGetType(UnitGroupLoopCurrent()) + " (" + FixedToString(PointGetX(UnitGetPosition(UnitGroupLoopCurrent())),2) + "," + FixedToString(PointGetY(UnitGetPosition(UnitGroupLoopCurrent())),2)  + ")");
+			UnitGroupLoopStep();
+		}
+		UnitGroupLoopEnd();
+		return;
+	}
+
+	if(StringWord( argv, 3) == "") {
+		libapx_print_error(p,"@pos requires both an X and Y coordinate to move a unit to (X,Y)");
+		return;
+	}
+
+	x = StringToFixed(StringWord(argv, 2));
+	y = StringToFixed(StringWord(argv, 3));
+
+	UnitGroupLoopBegin(g);
+	while(!UnitGroupLoopDone())
+	{
+		UnitSetPosition(UnitGroupLoopCurrent(), Point(x,y), false);
+		UnitGroupLoopStep();
+	}
+	UnitGroupLoopEnd();
+}
+
 // libapx_command_removearea
 // =====================
 // removes unit in a radius around mouse position
@@ -1229,6 +1268,7 @@ void libapx_command_copy(int user, unitgroup u, string argv) {
 	int i;
 	int cache;
 	string source_unit_id;
+	string param = StringWord(argv, 2);
 
 	UnitGroupLoopBegin(g);
 	while(!UnitGroupLoopDone()) {
@@ -1326,12 +1366,15 @@ void libapx_command_copy(int user, unitgroup u, string argv) {
 
 		// Skipping implementing setname duplications
 		// Copy the visuals via cache
-		source_unit_id = FixedToString(UnitGetCustomValue(source, libapx_UNIT_INDEX_ID), 0);
-		cache = 1;
-		while( DataTableValueExists(true, source_unit_id + "." + IntToString(cache)) ) {
-			libapx_chat_parse(DataTableGetString(true, source_unit_id + "." + IntToString(cache)), user, targets);
-			cache += 1;
+		if ( StringEqual(param, "+visual", false) ) {
+			source_unit_id = FixedToString(UnitGetCustomValue(source, libapx_UNIT_INDEX_ID), 0);
+			cache = 1;
+			while( DataTableValueExists(true, source_unit_id + "." + IntToString(cache)) ) {
+				libapx_chat_parse(DataTableGetString(true, source_unit_id + "." + IntToString(cache)), user, targets);
+				cache += 1;
+			}
 		}
+
 
 		UnitGroupLoopStep();
 	}
@@ -1564,7 +1607,7 @@ void libapx_command_state(int user, unitgroup u, string argv) {
 	} else if( param == "usessupply" ) {
 		state = c_unitStateUsingSupply;
 	} else {
-		libapx_print_error(user, "Usage: @radius [state] [on/off]\n" +
+		libapx_print_error(user, "Usage: @state [state] [on/off]\n" +
 							"States: fidget, highlightable, highlighted, ignoreterrainheight, invulnerable, hidden, paused, selectable, statusbar, targetable, tooltips, cursor, movable, turnable, usessupply");
 		return;
 	}
