@@ -39,7 +39,7 @@ typedef funcref<libapx_command_signature> libapx_command_type;
 //
 // Array length hardcoded such that num of commands registered should never
 // reach command table size. If it does, increase this array size.
-libapx_command_type[100] libapx_command_table;
+libapx_command_type[200] libapx_command_table;
 
 // Counter for the next free array entry in the libapx_command_table array
 int libapx_command_table_counter = 0;
@@ -131,7 +131,7 @@ void libapx_chat_parse(string msg, int player, unitgroup target) {
 		}
 
 		// check if performing reserved keyword commands (alias, macro, var)
-		if ( StringEqual( StringWord(current, 1), "_alias", c_stringNoCase) ) {
+		if ( StringEqual( StringWord(current, 1), "_alias", c_stringNoCase) || StringEqual( StringWord(current, 1), "alias", c_stringNoCase) ) {
 
 			// returns true if using "alias create":
 			// in this case, the rest of msg is used up AS IS, so parsing considered finished

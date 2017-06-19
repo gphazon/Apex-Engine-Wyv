@@ -20,7 +20,7 @@ bool libapx_process_chat_event(bool testConds, bool runActions) {
 	unitgroup target = UnitGroupEmpty();
 	libapx_player[EventPlayer()].chat_msg = libapx_string_trim(EventChatMessage(false)); //Where injection of chat occurs
 
-	// "<< " directly dumps message to OOC (if player not muted)
+	// "<<" directly dumps message to OOC (if player not muted)
 	if ( StringWord( libapx_player[EventPlayer()].chat_msg, 1) == "<<" &&  !libapx_player[EventPlayer()].muted ) {
 		libapx_player[EventPlayer()].chat_msg = libapx_string_trim( StringSub(libapx_player[EventPlayer()].chat_msg, 3, StringLength(libapx_player[EventPlayer()].chat_msg)) );
 		libapx_chat_print_OOC(EventPlayer(), libapx_player[EventPlayer()].chat_msg);

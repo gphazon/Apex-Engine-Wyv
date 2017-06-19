@@ -172,7 +172,7 @@ void libapx_gamesetup_load(int player, string gamesetup_name) {
 		id = IntToString( StringToInt(id) + 1 );
 
 		// wait 0.0s creates some delay and reducing lag during load
-		Wait(0.0, c_timeReal);
+		Wait(0.1, c_timeReal);
 	}
 
 	//loading complete!
