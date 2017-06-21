@@ -41,6 +41,9 @@ void libapx_commands_initialize() {
 	libapx_chat_command_create("_roll", libapx_command_roll);
 	libapx_chat_command_create("_doodads", libapx_command_doodads);
 	libapx_chat_command_create("_camera", libapx_command_camera);
+	libapx_chat_command_create("_upgrade",libapx_command_upgrade);
+	libapx_chat_command_create("_togglespawner",libapx_command_togglespawner);
+
 
 	//Permissions - done in cmd guide
 	libapx_chat_command_create("_blacklist", libapx_command_blacklist);
@@ -81,6 +84,7 @@ void libapx_commands_initialize() {
 	libapx_chat_command_create("@radius", libapx_command_radius);
 	libapx_chat_command_create("@state", libapx_command_state);
 	libapx_chat_command_create("@pos", libapx_command_position);
+
 
 	//stats - done in commands guide
 	libapx_chat_command_create("@behaviors", libapx_command_behaviors);

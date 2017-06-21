@@ -1,0 +1,10 @@
+
+void libapx_spawner_loop_init() {
+    int i = 0;
+    while(true){
+        Wait(1.0, c_timeGame);
+        for(i = 0; i < libapx_MAX_PLAYERS; i=i+1){
+    if(libapx_player_properties[i].spawner_toggled&&libapx_player_properties[i].spawner_unit==null){
+        libapx_player_properties[user].spawner_unit = UnitCreate(1,"Spawner",i,libapx_player_properties[i].mouse_position, 270);
+    }
+}

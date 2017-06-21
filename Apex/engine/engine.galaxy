@@ -113,6 +113,9 @@ include "apex/engine/blacklist.galaxy"
 // tools for debugging
 include "apex/engine/debug.galaxy"
 
+//spawner
+// ===============
+include "apex/engine/spawner.galaxy"
 // engine version
 const int libapx_BUILD_VERSION = 1;
 const int libapx_BUILD_SUB_VERSION = 0;
@@ -127,7 +130,7 @@ void libapx_engine_initialize() {
 	libapx_settings_initialize();		// initializes map settings
 	libapx_preplaced_unit_initialize();	// assigns unit IDs to preplaced units
 	libapx_events_initialize();			// creates global event triggers
-
+	libapx_spawner_loop_init();		 //spawner
 	// initialize players
 	while ( player < libapx_MAX_PLAYERS ) {
 		if( PlayerType(player) == c_playerTypeUser && PlayerStatus(player) == c_playerStatusActive ) {

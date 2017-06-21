@@ -119,6 +119,16 @@ void libapx_ui_commands_entries_init() {
 	i = 1;
 	j = 4;
 	//camera
+
+	libapx_ui_commands_entry[j][i].cmd = "_camera";
+	libapx_ui_commands_entry[j][i].l1 = "Sets camera properties.";
+	libapx_ui_commands_entry[j][i].l2 = "do _camera properties";
+	libapx_ui_commands_entry[j][i].l3 = "to list out properties";
+	libapx_ui_commands_entry[j][i].l4 = "ex. _camera AngleOfAttack 90";
+	libapx_ui_commands_entry[j][i].l5 = "_camera reset";
+	libapx_ui_commands_entry[j][i].l6 = "";
+	libapx_ui_commands_entry[j][i].l7 = "";
+	libapx_ui_commands_entry[j][i].l8 = "";
 	i = 1;
 	j = 5;
 	//general
@@ -146,6 +156,16 @@ void libapx_ui_commands_entries_init() {
 	libapx_ui_commands_entry[j][i].l1 = "Lists out commands";
 	libapx_ui_commands_entry[j][i].l2 = "";
 	libapx_ui_commands_entry[j][i].l3 = "";
+	libapx_ui_commands_entry[j][i].l4 = "";
+	libapx_ui_commands_entry[j][i].l5 = "";
+	libapx_ui_commands_entry[j][i].l6 = "";
+	libapx_ui_commands_entry[j][i].l7 = "";
+	libapx_ui_commands_entry[j][i].l8 = "";
+	i+=1;
+	libapx_ui_commands_entry[j][i].cmd = "_upgrade";
+	libapx_ui_commands_entry[j][i].l1 = "Upgrades an ability";
+	libapx_ui_commands_entry[j][i].l2 = "_upgrade stimpack on";
+	libapx_ui_commands_entry[j][i].l3 = "_upgrade stimpakck off";
 	libapx_ui_commands_entry[j][i].l4 = "";
 	libapx_ui_commands_entry[j][i].l5 = "";
 	libapx_ui_commands_entry[j][i].l6 = "";

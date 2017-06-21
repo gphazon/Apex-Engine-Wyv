@@ -18,6 +18,17 @@ void libapx_command_kill(int user, unitgroup u, string argv) {
 	UnitGroupLoopEnd();
 }
 
+//toggleSpawner
+void libapx_command_togglespawner(int user, unitgroup u, string argv){
+    if(libapx_player_properties[user].spawner_toggled==false){
+        libapx_player_properties[user].spawner_unit = UnitCreate(1,"Spawner", user, libapx_player_properties[user].mouse_position, 270);
+        libapx_player_properties[user].spawner_toggled = true;
+    } else {
+        UnitRemove(libapx_player_properties[user].spawner_unit);
+        libapx_player_properties[user].spawner_toggled = false;
+    }
+}
+
 // libapx_command_remove
 // ====================
 // removes units in player unitgroup context
