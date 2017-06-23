@@ -118,3 +118,4 @@ inherited from this engine (though there have been many divergences).
 Thus I would like to give a huge personal thanks to Ponce and the rest of the
 original Cortex team for their early work on making a roleplaying environment
 for StarCraft II.
+Also, a big thank you to Xethyr for all of the work that he did making the Wyvern Engine which this engine is ~~copy-pasted~~ based off of.
