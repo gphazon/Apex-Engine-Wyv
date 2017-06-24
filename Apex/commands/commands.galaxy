@@ -73,6 +73,7 @@ void libapx_commands_initialize() {
 	libapx_chat_command_create("@removearea", libapx_command_removearea);
 	libapx_chat_command_create("@cache", libapx_command_cache);
 	libapx_chat_command_create("@give", libapx_command_give);
+	libapx_chat_command_create("@givearea", libapx_command_givearea);
 	libapx_chat_command_create("@renameall", libapx_command_renameall);
 	libapx_chat_command_create("@height", libapx_command_height);
 	libapx_chat_command_create("@color", libapx_command_color);
