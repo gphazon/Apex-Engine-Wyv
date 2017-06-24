@@ -25,8 +25,25 @@ string libapx_scalerapply(string s) {
 	string z2;
 	s = StringReplaceWord(s, ",", " ", 200, false);
 	x = StringToFixed(StringWord(s, 1));
-	y = StringToFixed(StringWord(s, 2));
-	z = StringToFixed(StringWord(s, 3));
+	if (StringWord(s, 3) == "") {
+		z = x;
+	}
+	if (StringWord(s, 2) == "") {
+		y = x;
+	}
+	else {
+		y = StringToFixed(StringWord(s, 2));
+		z = StringToFixed(StringWord(s, 3));
+	}
+	if (x < 0.0005) {
+		x = 0.0005;
+	}
+	if (y < 0.0005) {
+		y = 0.0005;
+	}
+	if (z < 0.0005) {
+		z = 0.0005;
+	}
 	x2 = FixedToString(x*libapx_player[EventPlayer()].scaler, 4);
 	y2 = FixedToString(y*libapx_player[EventPlayer()].scaler, 4);
 	z2 = FixedToString(z*libapx_player[EventPlayer()].scaler, 4);

@@ -145,7 +145,7 @@ bool libapx_event_unit(bool testConds, bool runActions) {
 	}
 
 	// parse commands on the unit for the unit's owner
-	libapx_chat_parse(cmds, UnitGetOwner(EventUnit()), u);
+	libapx_chat_parse(cmds, UnitGetOwner(EventUnit()), u, libapx_player[EventPlayer()].spawningCount);
 
 	return true;
 }

@@ -21,7 +21,7 @@ string libapx_arg(string argv, int index) {
 }
 
 // function signature for Apex chat commands
-void libapx_command_signature(int user, unitgroup u, string argv);
+void libapx_command_signature(int user, unitgroup u, string argv, int spawningCount);
 
 // funcref type for Apex commands
 typedef funcref<libapx_command_signature> libapx_command_type;
@@ -67,7 +67,9 @@ const int libapx_PARSE_LIMIT = 4000;
 // parses a chat message string for commands (each command separated by ";" )
 // built-in commands are "_alias", "macro", and "var" which affect parsing
 // hence these are treated separately than all other commands
-void libapx_chat_parse(string msg, int player, unitgroup target) {
+void libapx_chat_parse(string msg, int player, unitgroup target, int spawningCount) {
+
+
 	string current = msg;
 	string current_alias_subbed;
 	string cmd_key;
@@ -75,7 +77,13 @@ void libapx_chat_parse(string msg, int player, unitgroup target) {
 	int semicolon_index;
 	int next_semicolon_index;
 	libapx_command_type func; // command ref test
-	libapx_player[player].context = target;
+
+
+	libapx_chat_parse_increment();
+	libapx_player_parser[player][spawningCount].context = target; //Sets Target of cmd
+
+
+
 	// manual interrupt flag to stop parsing, intialize as false
 	libapx_player[player].done_parsing = false;
 
@@ -176,8 +184,9 @@ void libapx_chat_parse(string msg, int player, unitgroup target) {
 		cmd_key = libapx_CHAT_COMMAND_DATA_TABLE_PREFIX + StringCase(StringWord(current, 1), false);
 		if ( DataTableValueExists(true, cmd_key) ) {
 			func = libapx_command_table[ DataTableGetInt(true, cmd_key) ];
-			target = libapx_player[player].context;
-			func( player, target, current );
+
+			target = libapx_player_parser[player][spawningCount].context;
+			func( player, target, current, spawningCount);
 		}
 		else if ( !libapx_player[player].muted ) {
 			libapx_chat_print_OOC(player, current);

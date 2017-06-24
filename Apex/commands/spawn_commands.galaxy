@@ -20,7 +20,7 @@
 //	libapx_command_spawn_instances[EventPlayer()].loc = null;
 //}
 
-void libapx_command_spawn(int user, unitgroup u, string argv) {
+void libapx_command_spawn(int user, unitgroup u, string argv, int spawningCount) {
   point spawn_point = libapx_player[user].mouse_position;
 	int count = StringToInt( StringWord(argv, 2) );
 	string type = StringWord(argv, 3);
@@ -38,9 +38,9 @@ void libapx_command_spawn(int user, unitgroup u, string argv) {
 				spawn_point = RegionGetCenter( libapx_player[user].spawn_instance_location );
 			}
 
-			libapx_player[user].context = UnitGroupEmpty();
+			libapx_player_parser[user][spawningCount].context = UnitGroupEmpty();
 			while (count > 0) {
-				libapx_unit_create(type, player, spawn_point, 270.0);
+				libapx_unit_create(type, player, spawn_point, 270.0, spawningCount);
 				count -= 1;
 			}
 
@@ -140,16 +140,16 @@ void libapx_command_spawn(int user, unitgroup u, string argv) {
 	libapx_player[user].spawn_instance_location = location;
 
 	// make spawned units
-	libapx_player[user].context = UnitGroupEmpty();
+	libapx_player_parser[user][spawningCount].context = UnitGroupEmpty();
 	while (count > 0) {
-		UnitGroupAddUnitGroup(libapx_player[user].context, libapx_unit_create(type, player, spawn_point, 270.0));
+		UnitGroupAddUnitGroup(libapx_player_parser[user][spawningCount].context, libapx_unit_create(type, player, spawn_point, 270.0, spawningCount));
 		count -= 1;
 	}
 
 	return;
 }
 //libapx_command_spawn_plus
-void libapx_command_spawn_plus(int user, unitgroup u, string argv) {
+void libapx_command_spawn_plus(int user, unitgroup u, string argv, int spawningCount) {
 	point spawn_point = libapx_player[user].mouse_position;
 	int count = StringToInt( StringWord(argv, 2) );
 	string type = StringWord(argv, 3);
@@ -167,9 +167,9 @@ void libapx_command_spawn_plus(int user, unitgroup u, string argv) {
 				spawn_point = RegionGetCenter( libapx_player[user].spawn_instance_location );
 			}
 
-			libapx_player[user].context = UnitGroupEmpty();
+			libapx_player_parser[user][spawningCount].context = UnitGroupEmpty();
 			while (count > 0) {
-				libapx_unit_create(type, player, spawn_point, 270.0);
+				libapx_unit_create(type, player, spawn_point, 270.0, spawningCount);
 				count -= 1;
 			}
 
@@ -276,9 +276,9 @@ void libapx_command_spawn_plus(int user, unitgroup u, string argv) {
 	libapx_player[user].spawn_instance_location = location;
 
 	// make spawned units
-	libapx_player[user].context = UnitGroupEmpty();
+	libapx_player_parser[user][spawningCount].context = UnitGroupEmpty();
 	while (count > 0) {
-		UnitGroupAddUnitGroup(libapx_player[user].context, libapx_unit_create(type, player, spawn_point, 270.0));
+		UnitGroupAddUnitGroup(libapx_player_parser[user][spawningCount].context, libapx_unit_create(type, player, spawn_point, 270.0, spawningCount));
 		count -= 1;
 	}
 

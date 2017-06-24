@@ -164,15 +164,27 @@ bool libapx_ui_alias_select(bool testConds, bool runActions) {
   int player = EventPlayer();
   string aliases = libapx_string_trim(libapx_player[player].aliases);
   string aliasval;
+	string currentVal;
   string aliaskey;
-  int i;
+	int charPerLine = 35;
+	int j = 1;
+	int i;
 
 
 	i = DialogControlGetSelectedItem(libapx_ui_aliases_list_key, player);
   aliasval = BankValueGetAsString(libapx_player[player].bank_storage, libapx_BANK_SECTION_ALIAS, StringWord(searchQuery[player], i));
   aliaskey = StringWord(searchQuery[player], i);
   DialogControlRemoveAllItems(libapx_ui_aliases_list_output, PlayerGroupSingle(player));
-  DialogControlAddItem(libapx_ui_aliases_list_output, PlayerGroupSingle(player), StringToText(aliasval));
+
+	while ( StringSub(aliasval, j, j+charPerLine) != "" ) {
+		currentVal = StringSub(aliasval, j, j+charPerLine);
+  	DialogControlAddItem(libapx_ui_aliases_list_output, PlayerGroupSingle(player), StringToText(currentVal));
+		j = j + charPerLine;
+	}
+
+
+
+
   libNtve_gf_SetDialogItemEditorValue(libapx_ui_aliases_key, aliaskey,  PlayerGroupSingle(player));
   libNtve_gf_SetDialogItemEditorValue(libapx_ui_aliases_val, aliasval,  PlayerGroupSingle(player));
 

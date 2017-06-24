@@ -11,7 +11,7 @@
 // creates a region and sets it into the global data table
 // regions are stored in format:
 // "reg [player] [name]"
-void libapx_command_region_create(int user, unitgroup u, string argv) {
+void libapx_command_region_create(int user, unitgroup u, string argv, int spawningCount) {
 	region r;
 	fixed radius;
 	string name = StringWord(argv, 2);
@@ -43,7 +43,7 @@ void libapx_command_region_create(int user, unitgroup u, string argv) {
 // ==================
 // removes a region and any linking to other regions
 // (for linking, see libapx_command_region_teleport below)
-void libapx_command_region_remove(int user, unitgroup u, string argv) {
+void libapx_command_region_remove(int user, unitgroup u, string argv, int spawningCount) {
 	string name = libapx_region_get_name(StringWord(argv, 2), user);
 	region rgn = DataTableGetRegion( true, name );
 
@@ -71,7 +71,7 @@ void libapx_command_region_remove(int user, unitgroup u, string argv) {
 // libapx_command_region_removeall
 // ======================
 // removes all regions and links
-void libapx_command_region_removeall(int user, unitgroup u, string argv) {
+void libapx_command_region_removeall(int user, unitgroup u, string argv, int spawningCount) {
 	int index = 1;
 	int removed = 0;
 	string rgn_identifier = libapx_region_get_name("", user);
@@ -106,7 +106,7 @@ void libapx_command_region_removeall(int user, unitgroup u, string argv) {
 // lists a player's regions from the data table
 // because region creation is not case sensitive,
 // these will always be in lowercase
-void libapx_command_region_list(int user, unitgroup u, string argv) {
+void libapx_command_region_list(int user, unitgroup u, string argv, int spawningCount) {
 	int i = 1;
 	string region_list = "";
 
@@ -136,7 +136,7 @@ void libapx_command_region_list(int user, unitgroup u, string argv) {
 // regions. (see engine/regions.galaxy to see how regions are linked,
 // events/region_waygates.galaxy to see how waygates function)
 // (heavily modified from Cortex engine)
-void libapx_command_region_teleport(int user, unitgroup u, string argv) {
+void libapx_command_region_teleport(int user, unitgroup u, string argv, int spawningCount) {
 	string rgn_1_name = libapx_region_get_name(StringWord(argv, 2), user);
 	string rgn_2_name = libapx_region_get_name(StringWord(argv, 3), user);
 	region rgn_1;
@@ -173,10 +173,10 @@ void libapx_command_region_teleport(int user, unitgroup u, string argv) {
 // libapx_command_region_attach
 // =================
 // attaches a region to a unit
-void libapx_command_region_attach(int user, unitgroup u, string argv) {
+void libapx_command_region_attach(int user, unitgroup u, string argv, int spawningCount) {
 	string name = StringWord(argv, 2);
 	region rgn = null;
-	unitgroup g = libapx_player[user].context;
+	unitgroup g = libapx_player_parser[user][spawningCount].context;
 	point offset;
 	int waygate_dialog; // waygate dialog for region
 

@@ -42,7 +42,6 @@ void libapx_commands_initialize() {
 	libapx_chat_command_create("_doodads", libapx_command_doodads);
 	libapx_chat_command_create("_camera", libapx_command_camera);
 	libapx_chat_command_create("_upgrade",libapx_command_upgrade);
-	libapx_chat_command_create("_togglespawner",libapx_command_togglespawner);
 
 
 	//Permissions - done in cmd guide
@@ -59,13 +58,16 @@ void libapx_commands_initialize() {
 	libapx_chat_command_create("!promote", libapx_command_promote);
 	libapx_chat_command_create("!demote", libapx_command_demote);
 	libapx_chat_command_create("!remove", libapx_command_remove_player);
-
+	libapx_chat_command_create("!destroy", libapx_command_destroy);
 
 	// spawn command - done in cmd guide
 	libapx_chat_command_create("@spawn+", libapx_command_spawn_plus);
 	libapx_chat_command_create("@spawn", libapx_command_spawn);
 
 	// unit commands - done in cmd guide
+	libapx_chat_command_create("@unitswap", libapx_command_unitswap);
+	libapx_chat_command_create("@unitvar", libapx_command_unitvar);
+	libapx_chat_command_create("@context", libapx_command_context);
 	libapx_chat_command_create("@kill", libapx_command_kill);
 	libapx_chat_command_create("@remove", libapx_command_remove);
 	libapx_chat_command_create("@removearea", libapx_command_removearea);
@@ -116,6 +118,8 @@ void libapx_commands_initialize() {
 	libapx_chat_command_create("@effect", libapx_command_effect);
 
 	// unit visual (actor) commands - done in cmd guide
+	libapx_chat_command_create("@setdelay", libapx_command_setdelay);
+
 	libapx_chat_command_create("@decal", libapx_command_decal);
 	libapx_chat_command_create("@setscaler", libapx_command_setscaler);
 	libapx_chat_command_create("@actrmsg", libapx_command_actormessage);

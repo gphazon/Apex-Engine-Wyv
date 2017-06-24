@@ -48,7 +48,8 @@ bool librtpr_mouse_left_clicked_down(bool testConds, bool runActions) {
 		libapx_unit_create( UnitGetType(libapx_player[EventPlayer()].spawn_splat),
 							EventPlayer(),
 							UnitGetPosition(libapx_player[EventPlayer()].spawn_splat),
-							UnitGetFacing(libapx_player[EventPlayer()].spawn_splat)
+							UnitGetFacing(libapx_player[EventPlayer()].spawn_splat),
+							libapx_player[EventPlayer()].spawningCount
 						  );
 	}
 

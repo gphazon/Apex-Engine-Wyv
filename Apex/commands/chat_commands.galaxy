@@ -10,7 +10,7 @@
 // libapx_command_narrate
 // ====================
 // just prints out a line of text to everyone
-void libapx_command_narrate(int user, unitgroup u, string argv) {
+void libapx_command_narrate(int user, unitgroup u, string argv, int spawningCount) {
 	string msg = argv;
 	msg = StringSub( msg, StringFind(msg, " ", c_stringCase) + 1, StringLength(msg) ); // remainder of chat message
 
@@ -26,7 +26,7 @@ void libapx_command_narrate(int user, unitgroup u, string argv) {
 // ==================
 // prints [unit name]: msg to chat
 // (actor talk icon and sound are defined in data.galaxy)
-void libapx_command_say(int user, unitgroup u, string argv) {
+void libapx_command_say(int user, unitgroup u, string argv, int spawningCount) {
 	text unit_name;
 	text unit_msg;
 	string cmd_msg = argv;
@@ -57,7 +57,7 @@ void libapx_command_say(int user, unitgroup u, string argv) {
 // libapx_command_setname
 // ==================
 // gives a unit a custom name by storing in data table
-void libapx_command_setname(int user, unitgroup u, string argv) {
+void libapx_command_setname(int user, unitgroup u, string argv, int spawningCount) {
 	string name = argv;
 	name = StringSub( name, StringFind(name, " ", c_stringCase) + 1, StringLength(name) ); // remainder of chat message
 
@@ -79,7 +79,7 @@ void libapx_command_setname(int user, unitgroup u, string argv) {
 // @setnamecolor [red] [green] [blue]
 // input RGB between 0-256 (by convention), but Color() takes fixed between 0-100,
 // so must normalize RGB to 0-100
-void libapx_command_setnamecolor(int user, unitgroup u, string argv) {
+void libapx_command_setnamecolor(int user, unitgroup u, string argv, int spawningCount) {
 	fixed r = StringToFixed( StringWord(argv, 2 ) );
 	fixed g = StringToFixed( StringWord(argv, 3 ) );
 	fixed b = StringToFixed( StringWord(argv, 4 ) );

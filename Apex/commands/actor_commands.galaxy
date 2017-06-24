@@ -78,7 +78,7 @@ static void libapx_apply_actormsg(unitgroup g, string target, string argv, strin
 // match user input to actual actor messages (many elseif), which is shitty
 //
 // TODO: convert to new generalized amsg target system?
-void libapx_command_actormessage(int user, unitgroup u, string argv) {
+void libapx_command_actormessage(int user, unitgroup u, string argv, int spawningCount) {
 	unitgroup g = u;
 	string target = StringWord( argv, 2);
 	bool target_scope_global = false;
@@ -116,6 +116,13 @@ void libapx_command_actormessage(int user, unitgroup u, string argv) {
 
 	amsg = StringSub( argv, amsg_start_index, StringLength(argv));
 
+	if (StringWord(amsg,1) == "SetScale" || StringWord(amsg,1) == "SetScaleAbsolute") {
+
+		amsg = StringWord(amsg,1) +  " " + libapx_scalerapply(StringWord(amsg,2)) + " " + StringWord(amsg,3);
+	}
+	libapx_print_output(user, amsg);
+	//libapx_scalerapply(offset)
+
 	UnitGroupLoopBegin(g);
 	while(!UnitGroupLoopDone()) {
 		if( target_scope_global ) {
@@ -138,7 +145,7 @@ void libapx_command_actormessage(int user, unitgroup u, string argv) {
 // These can be referenced as actor references by other actor commands
 // using ->[ref]
 // syntax: @actoralias (->[ref]) [alias]
-void libapx_command_actoralias(int user, unitgroup u, string argv) {
+void libapx_command_actoralias(int user, unitgroup u, string argv, int spawningCount) {
 	string actoralias;
 	int param_offset = 0;
 	string target = libapx_ACTOR_REF_MAIN;
@@ -165,7 +172,7 @@ void libapx_command_actoralias(int user, unitgroup u, string argv) {
 // ====================
 // sets the scale of a unit's main actor for all units in context (modified from Cortex Engine)
 // Syntax: @scale (->[ref]) [x] [y] [z] [time-blend]
-void libapx_command_scale(int user, unitgroup u, string argv) {
+void libapx_command_scale(int user, unitgroup u, string argv, int spawningCount) {
 	fixed x = 0;
 	fixed y = 0;
 	fixed z  = 0;
@@ -231,7 +238,7 @@ void libapx_command_scale(int user, unitgroup u, string argv) {
 // sets the tint of a unit's main actor for all units in context
 // Syntax: @tint (->[ref]) [R] [G] [B] [Opacity] [HDR] [time-blend]
 // (modified from Cortex Engine)
-void libapx_command_tint(int user, unitgroup u, string argv) {
+void libapx_command_tint(int user, unitgroup u, string argv, int spawningCount) {
 	string paramR;
 	string paramG;
 	string paramB;
@@ -358,7 +365,7 @@ void libapx_command_tint(int user, unitgroup u, string argv) {
 // ===================
 // Changes the model of the main actor of a unit (modified from ctx)
 // Syntax: @modelswap (->[ref]) [model] [variation]
-void libapx_command_decal(int user, unitgroup u, string argv) {
+void libapx_command_decal(int user, unitgroup u, string argv, int spawningCount) {
 	libapx_print_output(EventPlayer(), "Not implemented yet.");
 	return;
 }
@@ -368,7 +375,7 @@ void libapx_command_decal(int user, unitgroup u, string argv) {
 // ======================
 // Changes the model of the main actor of unit (modified from Cortex Engine)
 // Syntax: @modelswap (->[ref]) [model] [variation]
-void libapx_command_modelswap(int user, unitgroup u, string argv) {
+void libapx_command_modelswap(int user, unitgroup u, string argv, int spawningCount) {
 	string model;
 	string variation;
 	string amsg;
@@ -402,7 +409,7 @@ void libapx_command_modelswap(int user, unitgroup u, string argv) {
 // ================
 // makes the main actor play an animation by applying an animgroup
 // "@play reset" stops the animation
-void libapx_command_play(int user, unitgroup u, string argv) {
+void libapx_command_play(int user, unitgroup u, string argv, int spawningCount) {
 	unitgroup g = u;
 	string val;
 	string flags = "";
@@ -475,7 +482,7 @@ void libapx_command_play(int user, unitgroup u, string argv) {
 // ===================
 // changes the animation speed of any animations
 // a unit is playing (range is set as 0-10x default, 1)
-void libapx_command_animspeed(int user, unitgroup u, string argv) {
+void libapx_command_animspeed(int user, unitgroup u, string argv, int spawningCount) {
 	string speed;
 	fixed anm_speed;
 	int param_offset = 0;
@@ -515,7 +522,7 @@ void libapx_command_animspeed(int user, unitgroup u, string argv) {
 // applies a rotation on a unit (modified from Cortex Engine)
 // (note: movement removes these rotations,
 // so only really useful for static props)
-void libapx_command_rotate(int user, unitgroup u, string argv) {
+void libapx_command_rotate(int user, unitgroup u, string argv, int spawningCount) {
 	fixed yaw;
 	fixed pitch;
 	fixed roll;
@@ -558,7 +565,7 @@ void libapx_command_rotate(int user, unitgroup u, string argv) {
 // sets a unit's statbars
 // by default, turns statbars off.
 // turns on if user specifies by "@statbars on"
-void libapx_command_statbars(int user, unitgroup u, string argv) {
+void libapx_command_statbars(int user, unitgroup u, string argv, int spawningCount) {
 	string state = "";
 	int param_offset = 0;
 	string target = libapx_ACTOR_REF_MAIN;
@@ -584,7 +591,7 @@ void libapx_command_statbars(int user, unitgroup u, string argv) {
 //==========================
 //Sets the scale modifier for units, this intern is added in calcultions for
 //@attach translations and scales.
-void libapx_command_setscaler(int user, unitgroup u, string argv) {
+void libapx_command_setscaler(int user, unitgroup u, string argv, int spawningCount) {
 	fixed scaler;
 	if (StringWord(argv,2) == "") {
 		libapx_print(PlayerGroupSingle(user),"Input something");
@@ -604,12 +611,36 @@ void libapx_command_setscaler(int user, unitgroup u, string argv) {
 
 }
 
+
+//libapx_command_setdelay
+//==========================
+//Sets the default delay for attachments
+void libapx_command_setdelay(int user, unitgroup u, string argv, int spawningCount) {
+	fixed delay;
+	if (StringWord(argv,2) == "") {
+		libapx_print(PlayerGroupSingle(user),"Input something");
+	}
+	else if (StringWord(argv,3) != "") {
+		libapx_print(PlayerGroupSingle(user),"SetDelay only takes one value");
+	}
+	else if (libapx_is_fixed(StringWord(argv, 2)) == false) {
+		libapx_print(PlayerGroupSingle(user),"SetDelay takes numbers");
+	}
+	else {
+		libapx_print(PlayerGroupSingle(user),"Delay set to "+StringWord(argv,2));
+		delay = StringToFixed(StringWord(argv,2));
+		libapx_player[EventPlayer()].delay = delay;
+	}
+
+
+}
+
 //libapx_print_error(PlayerGroupSingle(user), "Scaler takes one arguement")
 
 // libapx_command_attach_minus
 // =====================
 // Replicated old attach of Cortex
-void libapx_command_attach_minus(int user, unitgroup u, string argv) {
+void libapx_command_attach_minus(int user, unitgroup u, string argv, int spawningCount) {
 	actor sactor;
 	string actr;
 	string scope;
@@ -618,6 +649,8 @@ void libapx_command_attach_minus(int user, unitgroup u, string argv) {
 	int i;
 	bool loop = true;
 	string attachPoints = "Origin Center Damage Engine Hardpoint Head Hit Overhead RallyPoint StatusBar Left Right Target Turret TurretY TurretZ Upgrade Weapon WeaponLeft WeaponRight Left Right";
+
+	libapx_waitDelay(user);
 
 	actr = StringWord(argv,2);
 	apoint = StringWord(argv,3);
@@ -677,7 +710,7 @@ void libapx_command_attach_minus(int user, unitgroup u, string argv) {
 // Attaches an actor or a model to a unit (modified @attach+ from Cortex Forge)
 // Can optionally specify coordinate offsets, rotations, and site operations
 // syntax: @attach (->[ref]) (-m) [Actor/Model] [Point_#] [offX] [offY] [offZ] (-r [rotX] [rotY] [rotZ]) [SOp1] [SOp2] [SOp3]...
-void libapx_command_attach(int user, unitgroup u, string argv) {
+void libapx_command_attach(int user, unitgroup u, string argv, int spawningCount) {
 	unitgroup g = u;
 	int parse_offset = 0;
 	int x;
@@ -693,6 +726,9 @@ void libapx_command_attach(int user, unitgroup u, string argv) {
 	string actormsg;
 	string attachPoints = "Origin Center Damage Engine Hardpoint Head Hit Overhead RallyPoint StatusBar Left Right Target Turret TurretY TurretZ Upgrade Weapon WeaponLeft WeaponRight Left Right";
 	string target = libapx_ACTOR_REF_MAIN;
+
+	libapx_waitDelay(user);
+
 
 	// get actor reference target
 	if( libapx_has_actor_ref(StringWord(argv, 2)) ) {

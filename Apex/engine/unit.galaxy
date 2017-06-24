@@ -98,7 +98,7 @@ bool libapx_unit_initialize(bool testConds, bool runActions) {
 // - Creates unit and initializes its ID.
 //    -> If player using mouse-click spawning, copies the commands on the
 //       spawn splat to the unit being created.
-unitgroup libapx_unit_create(string type, int player, point p, fixed facing) {
+unitgroup libapx_unit_create(string type, int player, point p, fixed facing, int spawningCount) {
 	unitgroup spawned;
 	unit u;
 	string splat_unit_id;
@@ -123,7 +123,7 @@ unitgroup libapx_unit_create(string type, int player, point p, fixed facing) {
 		splat_unit_id = FixedToString( UnitGetCustomValue( libapx_player[player].spawn_splat, libapx_UNIT_INDEX_ID), 0 );
 		while( DataTableValueExists(true, splat_unit_id + "." + IntToString(index)) ) {
 			cache = DataTableGetString(true, splat_unit_id + "." + IntToString(index));
-			libapx_chat_parse( cache, player, spawned );
+			libapx_chat_parse( cache, player, spawned, spawningCount );
 			index += 1;
 		}
 
@@ -177,7 +177,7 @@ void libapx_spawn_create_splat(string type, int player) {
 
 	// set context to spawn splat, so commands applied to it
 	UnitGroupAdd(splat, libapx_player[player].spawn_splat);
-	libapx_player[player].context = splat;
+	libapx_player_parser[player][libapx_player[EventPlayer()].spawningCount].context = splat;
 }
 
 // libapx_spawn_splat_update_pos
@@ -748,7 +748,7 @@ unit libapx_unit_cache_undo(unit subject_orig, int undo_iterations) {
 	g = UnitGroupEmpty();
 	UnitGroupAdd(g, subject_undo);
 
-	libapx_player[UnitGetOwner(subject_undo)].context = g;
+	libapx_player_parser[UnitGetOwner(subject_undo)][libapx_player[EventPlayer()].spawningCount].context = g;
 	while(DataTableValueExists(true, unit_id_old + "." + IntToString(cache))) {
 		//libapx_chat_parsechat(UnitGetOwner(subject_undo), DataTableGetString(true, unit_id_old + "." + IntToString(cache)), libapx_chat_recursion_limit);
 		cache += 1;

@@ -12,7 +12,7 @@
 // libapx_command_experiment
 // =====================
 // test of new command system using func refs
-void libapx_command_experiment(int user, unitgroup u, string argv) {
+void libapx_command_experiment(int user, unitgroup u, string argv, int spawningCount) {
 	int i = 1;
 	string arg = libapx_arg(argv, 1);
 	libapx_print(PlayerGroupAll(), libapx_string_trim(argv));
@@ -32,7 +32,7 @@ int strcmp(string k1, string k2) {
 }
 
 // test sort the input args
-void libapx_command_sort(int user, unitgroup u, string argv) {
+void libapx_command_sort(int user, unitgroup u, string argv, int spawningCount) {
 	string var = "TESTVAR";
 	int i = 0;
 	int n;

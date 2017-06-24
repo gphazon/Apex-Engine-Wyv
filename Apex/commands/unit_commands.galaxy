@@ -9,7 +9,7 @@
 // libapx_command_kill
 // ====================
 // kills units in player unitgroup context
-void libapx_command_kill(int user, unitgroup u, string argv) {
+void libapx_command_kill(int user, unitgroup u, string argv, int spawningCount) {
 	UnitGroupLoopBegin(u);
 	while(!UnitGroupLoopDone()) {
 		UnitKill( UnitGroupLoopCurrent() );
@@ -18,21 +18,11 @@ void libapx_command_kill(int user, unitgroup u, string argv) {
 	UnitGroupLoopEnd();
 }
 
-//toggleSpawner
-void libapx_command_togglespawner(int user, unitgroup u, string argv){
-    if(libapx_player_properties[user].spawner_toggled==false){
-        libapx_player_properties[user].spawner_unit = UnitCreate(1,"Spawner", user, libapx_player_properties[user].mouse_position, 270);
-        libapx_player_properties[user].spawner_toggled = true;
-    } else {
-        UnitRemove(libapx_player_properties[user].spawner_unit);
-        libapx_player_properties[user].spawner_toggled = false;
-    }
-}
 
 // libapx_command_remove
 // ====================
 // removes units in player unitgroup context
-void libapx_command_remove(int user, unitgroup u, string argv) {
+void libapx_command_remove(int user, unitgroup u, string argv, int spawningCount) {
 	UnitGroupLoopBegin(u);
 	while(!UnitGroupLoopDone()) {
 		UnitRemove(UnitGroupLoopCurrent());
@@ -41,11 +31,78 @@ void libapx_command_remove(int user, unitgroup u, string argv) {
 	UnitGroupLoopEnd();
 }
 
+// libapx_command_unitvar
+// ============================
+// Swaps the unit of selected units.
+void libapx_command_unitvar(int user, unitgroup u, string argv, int spawningCount) {
+	string unitvarprefix = "unitvar_";
+	if (StringWord(argv,2) != "") {
+		DataTableValueRemove(true, unitvarprefix + StringWord(argv, 2));
+		DataTableSetUnitGroup(true, unitvarprefix + StringWord(argv, 2) , u);
+	} else {
+		libapx_print_output(user, "Provide a name for the unitgroup");
+	}
+}
+
+
+	// libapx_command_context
+	// ============================
+	// Switches the context of this parsing thread.
+	void libapx_command_context(int user, unitgroup u, string argv, int spawningCount) {
+	string unitvarprefix = "unitvar_";
+	unitgroup target = DataTableGetUnitGroup(true, unitvarprefix + StringWord(argv,2));
+
+libapx_set_target(user, target, spawningCount);
+// libapx_set_target(int player, unitgroup target, int spawningCount)
+}
+
+
+
+// libapx_command_unitswap
+// ============================
+// Swaps the unit of selected units.
+void libapx_command_unitswap(int user, unitgroup u, string argv, int spawningCount) {
+	string targetUnit;
+	fixed x;
+	fixed y;
+	point pos;
+	fixed face;
+	fixed height;
+	unit g;
+	if (StringWord(argv, 2) != "") {
+		targetUnit = StringWord(argv,2);
+	}
+	else {
+		targetUnit = "Beacon_Nova";
+	}
+
+	//Loops through unitgroup,
+	UnitGroupLoopBegin(u);
+	while(!UnitGroupLoopDone()) {
+		x = PointGetX(UnitGetPosition(UnitGroupLoopCurrent()));
+		y = PointGetY(UnitGetPosition(UnitGroupLoopCurrent()));
+		face = UnitGetFacing(UnitGroupLoopCurrent());
+		height = UnitGetHeight(UnitGroupLoopCurrent());
+		pos = Point(x,y);
+		UnitRemove(UnitGroupLoopCurrent());
+		libapx_unit_create(targetUnit, user, pos , face, spawningCount);
+		g = UnitLastCreated(); // store the unit, since spawned is a unit group
+		UnitSetHeight(g, height, 0);
+
+		//libapx_unit_create(string type, int player, point p, fixed facing , int spawningCount)
+		UnitGroupLoopStep();
+	}
+	UnitGroupLoopEnd();
+}
+
+
+
+
 // libapx_command_position
 // =====================
 // sets the position of a unit
 
-void libapx_command_position (int user, unitgroup u, string argv) {
+void libapx_command_position (int user, unitgroup u, string argv, int spawningCount) {
 	fixed x;
 	fixed y;
 	int p = EventPlayer();
@@ -83,7 +140,7 @@ void libapx_command_position (int user, unitgroup u, string argv) {
 // libapx_command_removearea
 // =====================
 // removes unit in a radius around mouse position
-void libapx_command_removearea(int user, unitgroup u, string argv) {
+void libapx_command_removearea(int user, unitgroup u, string argv, int spawningCount) {
 	unitgroup g;
 	fixed radius = StringToFixed( StringWord( argv, 2 ));
 	if(radius == 0.0) {
@@ -106,7 +163,7 @@ void libapx_command_removearea(int user, unitgroup u, string argv) {
 // libapx_command_cache
 // ===================
 // displays unit command cache info or values
-void libapx_command_cache(int user, unitgroup u, string argv) {
+void libapx_command_cache(int user, unitgroup u, string argv, int spawningCount) {
 	string cache;
 	string unit_caches;
 	unitgroup g = u;
@@ -138,7 +195,7 @@ void libapx_command_cache(int user, unitgroup u, string argv) {
 // libapx_command_give
 // =================
 // gives another player units
-void libapx_command_give(int user, unitgroup u, string argv) {
+void libapx_command_give(int user, unitgroup u, string argv, int spawningCount) {
 	unitgroup g = u;
 	int new_owner = libapx_color_to_player( StringCase( StringWord(argv, 2), false ) );
 
@@ -159,7 +216,7 @@ void libapx_command_give(int user, unitgroup u, string argv) {
 // libapx_command_renameall
 // ===================
 // renames all units (by replacing unit catalog name entry)
-void libapx_command_renameall(int user, unitgroup u, string argv) {
+void libapx_command_renameall(int user, unitgroup u, string argv, int spawningCount) {
 	string val;
 	unitgroup g = u;
 	val = argv;
@@ -178,7 +235,7 @@ void libapx_command_renameall(int user, unitgroup u, string argv) {
 // libapx_command_behaviors
 // ====================
 // prints a list of all unit behaviors and stack count (behaviors can stack)
-void libapx_command_behaviors(int user, unitgroup u, string argv) {
+void libapx_command_behaviors(int user, unitgroup u, string argv, int spawningCount) {
 	int count;
 	string behavior;
 
@@ -208,7 +265,7 @@ void libapx_command_behaviors(int user, unitgroup u, string argv) {
 // libapx_command_addbehavior
 // =====================
 // adds a behavior to units
-void libapx_command_addbehavior(int user, unitgroup u, string argv) {
+void libapx_command_addbehavior(int user, unitgroup u, string argv, int spawningCount) {
 	string val = StringWord( argv, 2 );
 
 	// get full behavior name from catalog
@@ -232,7 +289,7 @@ void libapx_command_addbehavior(int user, unitgroup u, string argv) {
 // libapx_command_removebehavior
 // =======================
 // removes a behavior from units
-void libapx_command_removebehavior(int user, unitgroup u, string argv) {
+void libapx_command_removebehavior(int user, unitgroup u, string argv, int spawningCount) {
 	string val = StringWord( argv, 2 );
 
 	// get catalog entry from user input
@@ -256,7 +313,7 @@ void libapx_command_removebehavior(int user, unitgroup u, string argv) {
 // libapx_command_weapons
 // =================
 // prints a list of the weapons a unit currently has
-void libapx_command_weapons(int user, unitgroup u, string argv) {
+void libapx_command_weapons(int user, unitgroup u, string argv, int spawningCount) {
 	int count;
 
 	UnitGroupLoopBegin(u);
@@ -285,7 +342,7 @@ void libapx_command_weapons(int user, unitgroup u, string argv) {
 // adds a weapon to a given turret on a unit
 //  -> if turret specified does not exist, defaults to CTurret
 //     (default weapon turret)
-void libapx_command_addweapon(int user, unitgroup u, string argv) {
+void libapx_command_addweapon(int user, unitgroup u, string argv, int spawningCount) {
 	string weapon = StringWord(argv, 2);
 	string turret = StringWord(argv, 3);
 
@@ -322,7 +379,7 @@ void libapx_command_addweapon(int user, unitgroup u, string argv) {
 // libapx_command_removeweapon
 // ====================
 // removes a weapon from a unit
-void libapx_command_removeweapon(int user, unitgroup u, string argv) {
+void libapx_command_removeweapon(int user, unitgroup u, string argv, int spawningCount) {
 	string weapon = StringWord( argv, 2 );
 
 	// get catalog entry for weapon and make sure weapon is valid
@@ -349,7 +406,7 @@ void libapx_command_removeweapon(int user, unitgroup u, string argv) {
 // ===================
 // sets units life, shields, or energy (absolute, adding, or percentage)
 // e.g. syntax: @life 10, @life 10%, @life +10, @life +10%
-void libapx_command_life(int user, unitgroup u, string argv) {
+void libapx_command_life(int user, unitgroup u, string argv, int spawningCount) {
 	string param;
 	fixed val;
 	bool percent = false;
@@ -394,7 +451,7 @@ void libapx_command_life(int user, unitgroup u, string argv) {
 	return;
 }
 
-void libapx_command_shields(int user, unitgroup u, string argv) {
+void libapx_command_shields(int user, unitgroup u, string argv, int spawningCount) {
 	string param;
 	fixed val;
 	bool percent = false;
@@ -439,7 +496,7 @@ void libapx_command_shields(int user, unitgroup u, string argv) {
 	return;
 }
 
-void libapx_command_energy(int user, unitgroup u, string argv) {
+void libapx_command_energy(int user, unitgroup u, string argv, int spawningCount) {
 	string param;
 	fixed val;
 	bool percent = false;
@@ -491,7 +548,7 @@ void libapx_command_energy(int user, unitgroup u, string argv) {
 // sets a unit's maxlife, maxshields, or maxenergy
 // can specify as either absolute, percentage, or added value
 // e.g. syntax: @maxlife 10, @maxlife 10%, @maxlife +10%, @maxlife +10
-void libapx_command_maxlife(int user, unitgroup u, string argv) {
+void libapx_command_maxlife(int user, unitgroup u, string argv, int spawningCount) {
 	string param;
 	fixed val;
 	bool percent = false;
@@ -539,7 +596,7 @@ void libapx_command_maxlife(int user, unitgroup u, string argv) {
 	return;
 }
 
-void libapx_command_maxshields(int user, unitgroup u, string argv) {
+void libapx_command_maxshields(int user, unitgroup u, string argv, int spawningCount) {
 	string param;
 	fixed val;
 	bool percent = false;
@@ -587,7 +644,7 @@ void libapx_command_maxshields(int user, unitgroup u, string argv) {
 	return;
 }
 
-void libapx_command_maxenergy(int user, unitgroup u, string argv) {
+void libapx_command_maxenergy(int user, unitgroup u, string argv, int spawningCount) {
 	string param;
 	fixed val;
 	bool percent = false;
@@ -642,7 +699,7 @@ void libapx_command_maxenergy(int user, unitgroup u, string argv) {
 // changes units life, shields, or energy regeneration
 // can specify as absolute or as a percentage
 // e.g. syntax: @liferegen 2 or @liferegen 2%
-void libapx_command_liferegen(int user, unitgroup u, string argv) {
+void libapx_command_liferegen(int user, unitgroup u, string argv, int spawningCount) {
 	string param = StringWord( argv, 2 );
 	fixed val = StringToFixed(param);
 	bool is_percent = false;
@@ -670,7 +727,7 @@ void libapx_command_liferegen(int user, unitgroup u, string argv) {
 	return;
 }
 
-void libapx_command_shieldsregen(int user, unitgroup u, string argv) {
+void libapx_command_shieldsregen(int user, unitgroup u, string argv, int spawningCount) {
 	string param = StringWord( argv, 2 );
 	fixed val = StringToFixed(param);
 	bool is_percent = false;
@@ -698,7 +755,7 @@ void libapx_command_shieldsregen(int user, unitgroup u, string argv) {
 	return;
 }
 
-void libapx_command_energyregen(int user, unitgroup u, string argv) {
+void libapx_command_energyregen(int user, unitgroup u, string argv, int spawningCount) {
 	string param = StringWord( argv, 2 );
 	fixed val = StringToFixed(param);
 	bool is_percent = false;
@@ -729,7 +786,7 @@ void libapx_command_energyregen(int user, unitgroup u, string argv) {
 // libapx_command_speed
 // ==================
 // sets a unit's speed (either for a single unit, or permanently for all)
-void libapx_command_speed(int user, unitgroup u, string argv) {
+void libapx_command_speed(int user, unitgroup u, string argv, int spawningCount) {
 	string param = StringWord( argv, 2 );
 	fixed val;
 	bool is_permanent = false;
@@ -784,7 +841,7 @@ void libapx_command_speed(int user, unitgroup u, string argv) {
 // libapx_command_height
 // ====================
 // sets a unit's z height
-void libapx_command_height(int user, unitgroup u, string argv) {
+void libapx_command_height(int user, unitgroup u, string argv, int spawningCount) {
 	fixed height;
 	fixed time;
 	string param;
@@ -808,7 +865,7 @@ void libapx_command_height(int user, unitgroup u, string argv) {
 // libapx_command_color
 // ==================
 // changes the player color of a unit
-void libapx_command_color(int user, unitgroup u, string argv) {
+void libapx_command_color(int user, unitgroup u, string argv, int spawningCount) {
 	int new_color;
 	string param = StringWord( argv, 2 );
 	unitgroup g = u;
@@ -832,7 +889,7 @@ void libapx_command_color(int user, unitgroup u, string argv) {
 // libapx_command_vulnerable
 // ====================
 // Makes a unit invulnerable or vulnerable
-void libapx_command_invulnerable(int user, unitgroup u, string argv) {
+void libapx_command_invulnerable(int user, unitgroup u, string argv, int spawningCount) {
 	UnitGroupLoopBegin(u);
 	while(!UnitGroupLoopDone()) {
 		UnitSetState( UnitGroupLoopCurrent(), c_unitStateInvulnerable, true );
@@ -842,7 +899,7 @@ void libapx_command_invulnerable(int user, unitgroup u, string argv) {
 	UnitGroupLoopEnd();
 	return;
 }
-void libapx_command_vulnerable(int user, unitgroup u, string argv) {
+void libapx_command_vulnerable(int user, unitgroup u, string argv, int spawningCount) {
 	UnitGroupLoopBegin(u);
 	while(!UnitGroupLoopDone()) {
 		UnitSetState( UnitGroupLoopCurrent(), c_unitStateInvulnerable, false );
@@ -857,7 +914,7 @@ void libapx_command_vulnerable(int user, unitgroup u, string argv) {
 // ===============
 // makes a unit face an angle. (modified from Cortex engine)
 // if no angle is specified, unit will face towards player's mouse cursor
-void libapx_command_face(int user, unitgroup u, string argv) {
+void libapx_command_face(int user, unitgroup u, string argv, int spawningCount) {
 	fixed angle;
 	string param;
 	bool absolute = true;
@@ -893,7 +950,7 @@ void libapx_command_face(int user, unitgroup u, string argv) {
 // deals with both adding or removing damage (modified from Cortex engine)
 // both @adddamage and @removedamage are directed here
 // max damage added or removed is currently set at 9999
-void libapx_command_damage(int user, unitgroup u, string argv) {
+void libapx_command_damage(int user, unitgroup u, string argv, int spawningCount) {
 	string command = StringCase( StringWord( argv, 1 ), false );
 	string dmg_behavior_1;
 	string dmg_behavior_10;
@@ -967,7 +1024,7 @@ void libapx_command_damage(int user, unitgroup u, string argv) {
 // deals with both adding or removing weapon range (modified from Cortex engine)
 // both @addrange and @removerange are directed here
 // max range able to be added/removed is currently set as 100
-void libapx_command_range(int user, unitgroup u, string argv) {
+void libapx_command_range(int user, unitgroup u, string argv, int spawningCount) {
 	string command = StringCase( StringWord( argv, 1 ), false );
 	string range_behavior_1;
 	string range_behavior_10;
@@ -1012,7 +1069,7 @@ void libapx_command_range(int user, unitgroup u, string argv) {
 // ===============
 // used for both @armor and @shieldsarmor
 // sets a unit's armor to the amount given via behaviors
-void libapx_command_armor(int user, unitgroup u, string argv) {
+void libapx_command_armor(int user, unitgroup u, string argv, int spawningCount) {
 	fixed armor = StringToFixed( StringWord( argv, 2 ) );
 	fixed armor_curr = 0;
 	fixed armor_diff = 0;
@@ -1116,7 +1173,7 @@ void libapx_command_armor(int user, unitgroup u, string argv) {
 // So we require stack X given by (floored to an int):
 // If Y > W : X = log(Y/W)/log(1.1)
 // If Y < W : X = log(Y/W)/log(0.9)
-void libapx_command_weaponspeed(int user, unitgroup u, string argv) {
+void libapx_command_weaponspeed(int user, unitgroup u, string argv, int spawningCount) {
 	unitgroup g = u;
 	fixed speed = StringToFixed( StringWord( argv, 2 ) );
 	fixed ratio = 0;
@@ -1172,7 +1229,7 @@ void libapx_command_weaponspeed(int user, unitgroup u, string argv) {
 // ====================
 // sets global weaponspeed for weapons on a unit
 // (by changing the catalog weaponspeed value)
-void libapx_command_weaponspeedall(int user, unitgroup u, string argv) {
+void libapx_command_weaponspeedall(int user, unitgroup u, string argv, int spawningCount) {
 	unitgroup g = u;
 	fixed speed = StringToFixed( StringWord( argv, 2 ) );
 	int index;
@@ -1211,7 +1268,7 @@ void libapx_command_weaponspeedall(int user, unitgroup u, string argv) {
 // libapx_command_subtitle
 // =================
 // sets a unit's subtitle (underneath a unit name)
-void libapx_command_subtitle(int user, unitgroup u, string argv) {
+void libapx_command_subtitle(int user, unitgroup u, string argv, int spawningCount) {
 	string val = argv;
 	unitgroup g = u;
 	val = StringSub( val, StringFind(val, " ", c_stringCase)+1, StringLength(val)); // The remainder of the chat message.
@@ -1230,7 +1287,7 @@ void libapx_command_subtitle(int user, unitgroup u, string argv) {
 // =====================
 // sets a units tooltip, either the main tip or subtip
 // (note: this is only visible to OTHER players)
-void libapx_command_tooltip(int user, unitgroup u, string argv) {
+void libapx_command_tooltip(int user, unitgroup u, string argv, int spawningCount) {
 	unitgroup g = u;
 	string description;
 	bool subtip = false;
@@ -1270,7 +1327,7 @@ void libapx_command_tooltip(int user, unitgroup u, string argv) {
 // copies selected units:
 // - stats, behaviors, orders, weapons
 // - visuals (by parsing commands from source cache)
-void libapx_command_copy(int user, unitgroup u, string argv) {
+void libapx_command_copy(int user, unitgroup u, string argv, int spawningCount) {
 	unitgroup g = u;
 	unitgroup created = UnitGroupEmpty();
 	unit source;
@@ -1377,11 +1434,11 @@ void libapx_command_copy(int user, unitgroup u, string argv) {
 
 		// Skipping implementing setname duplications
 		// Copy the visuals via cache
-		if ( StringEqual(param, "+visual", false) ) {
+		if ( (StringEqual(param, "+visual", c_stringNoCase)) ) {
 			source_unit_id = FixedToString(UnitGetCustomValue(source, libapx_UNIT_INDEX_ID), 0);
 			cache = 1;
 			while( DataTableValueExists(true, source_unit_id + "." + IntToString(cache)) ) {
-				libapx_chat_parse(DataTableGetString(true, source_unit_id + "." + IntToString(cache)), user, targets);
+				libapx_chat_parse(DataTableGetString(true, source_unit_id + "." + IntToString(cache)), user, targets, spawningCount);
 				cache += 1;
 			}
 		}
@@ -1399,7 +1456,7 @@ void libapx_command_copy(int user, unitgroup u, string argv) {
 // libapx_command_effect
 // ===============
 // creates an effect at target units or at a point
-void libapx_command_effect(int user, unitgroup u, string argv) {
+void libapx_command_effect(int user, unitgroup u, string argv, int spawningCount) {
 	unitgroup g = u;
 	string effect = StringWord( argv, 2 );
 
@@ -1439,7 +1496,7 @@ void libapx_command_effect(int user, unitgroup u, string argv) {
 // ==============
 // sets the number of kills on a unit
 // (only useful for changing unit kill rank)
-void libapx_command_kills(int user, unitgroup u, string argv) {
+void libapx_command_kills(int user, unitgroup u, string argv, int spawningCount) {
 	unitgroup g = u;
 	fixed val = StringToFixed( StringWord( argv, 2 ) );
 
@@ -1461,7 +1518,7 @@ void libapx_command_kills(int user, unitgroup u, string argv) {
 // sets a unit's level (level range between 0 - 20)
 // (if a unit does not have veterancy behavior,
 // it is added before setting level)
-void libapx_command_level(int user, unitgroup u, string argv) {
+void libapx_command_level(int user, unitgroup u, string argv, int spawningCount) {
 	unitgroup g = u;
 	int val = StringToInt( StringWord( argv, 2 ) );
 
@@ -1493,7 +1550,7 @@ void libapx_command_level(int user, unitgroup u, string argv) {
 // =================
 // creates and attaches a text tag to unit
 // labels are destroyed when units removed/killed
-void libapx_command_label(int user, unitgroup u, string argv) {
+void libapx_command_label(int user, unitgroup u, string argv, int spawningCount) {
 	int tag_id;
 	bool remove_tag = false;
 	unitgroup g = u;
@@ -1535,7 +1592,7 @@ void libapx_command_label(int user, unitgroup u, string argv) {
 // libapx_command_radius
 // ====================
 // adjusts a unit's collision radius
-void libapx_command_radius(int user, unitgroup u, string argv) {
+void libapx_command_radius(int user, unitgroup u, string argv, int spawningCount) {
 	string val = StringWord( argv, 2 );
 	fixed radius;
 	unitgroup g = u;
@@ -1580,7 +1637,7 @@ void libapx_command_radius(int user, unitgroup u, string argv) {
 // each setting can either be on (true) or off (false).
 //        syntax: @state [state-name] [on/off]
 // for [on/off], any input that isnt "on" is parsed as "off" (false)
-void libapx_command_state(int user, unitgroup u, string argv) {
+void libapx_command_state(int user, unitgroup u, string argv, int spawningCount) {
 	string param = StringCase( StringWord( argv, 2 ), false );
 	int state;
 	bool status = false;

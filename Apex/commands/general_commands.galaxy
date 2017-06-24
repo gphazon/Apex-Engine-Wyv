@@ -54,7 +54,7 @@ string libapx_param_catalog(int catalog, string word)
 
 
 //libapx_command_upgrade
-void libapx_command_upgrade(int user, unitgroup u, string argv)
+void libapx_command_upgrade(int user, unitgroup u, string argv, int spawningCount)
 {
     string upgrade = StringWord(argv, 2);
     string nextParam = StringCase(StringWord(argv, 3), false);
@@ -164,7 +164,7 @@ void libapx_camera_reset (int player)
 }
 
 
-void libapx_command_camera(int user, unitgroup u, string argv) {
+void libapx_command_camera(int user, unitgroup u, string argv, int spawningCount) {
 	string s;
 	string paremVal;
 	fixed time;
@@ -377,7 +377,7 @@ void libapx_command_camera(int user, unitgroup u, string argv) {
 // libapx_command_info
 // ====================
 // just prints out a line of text to everyone
-void libapx_command_info(int user, unitgroup u, string argv) {
+void libapx_command_info(int user, unitgroup u, string argv, int spawningCount) {
 	libapx_print_output(user, "Apex Engine v" + IntToString(libapx_BUILD_VERSION) + "." + IntToString(libapx_BUILD_SUB_VERSION) + libapx_BUILD_VERSION_MODIFIER);
 	libapx_print_output(user, "Lead Developer: Serobliss");
 	libapx_print_output(user, "Developers: Lunar, GPhazon, Snivs");
@@ -388,14 +388,14 @@ void libapx_command_info(int user, unitgroup u, string argv) {
 // libapx_command_list_commands
 // ===============
 // prints out a list of all the commands registered
-void libapx_command_list_commands(int user, unitgroup u, string argv) {
+void libapx_command_list_commands(int user, unitgroup u, string argv, int spawningCount) {
 	libapx_print_output(user, "LISTING GAME COMMANDS:\n" + libapx_settings.commands);
 }
 
 // libapx_command_wait
 // ===============
 // creates a delay
-void libapx_command_delay(int user, unitgroup u, string argv) {
+void libapx_command_delay(int user, unitgroup u, string argv, int spawningCount) {
 	fixed time = StringToFixed(StringWord(argv, 2));
 	Wait(time, c_timeGame);
 }
@@ -403,7 +403,7 @@ void libapx_command_delay(int user, unitgroup u, string argv) {
 // libapx_command_players
 // ===============
 // prints player info (name + color + permissions level)
-void libapx_command_players(int user, unitgroup u, string argv) {
+void libapx_command_players(int user, unitgroup u, string argv, int spawningCount) {
 	int player = 0;
 	text player_info;
 	text output = StringToText("Listing players: ");
@@ -435,7 +435,7 @@ void libapx_command_players(int user, unitgroup u, string argv) {
 // libapx_command_gamesetup
 // ====================
 // redirects to proper gamesetup saving/loading/removing commands
-void libapx_command_gamesetup(int user, unitgroup u, string argv) {
+void libapx_command_gamesetup(int user, unitgroup u, string argv, int spawningCount) {
 	string param;
 	string gamesetup_name;
 	string rgnName;
@@ -550,7 +550,7 @@ void libapx_command_gamesetup(int user, unitgroup u, string argv) {
 // ==================
 // gives a player control over another player's units
 // (modified from Cortex Engine)
-void libapx_command_control(int user, unitgroup u, string argv) {
+void libapx_command_control(int user, unitgroup u, string argv, int spawningCount) {
 	string player = StringCase( StringWord(libapx_player[user].chat_msg, 2), false );
 	string target_player = StringCase( StringWord(libapx_player[user].chat_msg, 3), false );
 	string original = player;
@@ -577,7 +577,7 @@ void libapx_command_control(int user, unitgroup u, string argv) {
 	if( original == "all" ) {
 		while( i != libapx_MAX_PLAYERS ) {
 			// Issue this command over the next color.
-			libapx_chat_parse("_control " + libapx_color_from_player(i) + " " + target_player, user, libapx_player[user].context);
+			libapx_chat_parse("_control " + libapx_color_from_player(i) + " " + target_player, user, libapx_player_parser[user][spawningCount].context, spawningCount);
 			i += 1;
 		}
 		return;
@@ -617,7 +617,7 @@ void libapx_command_control(int user, unitgroup u, string argv) {
 // ======================
 // stops unit spending/control between two players
 // (Modified from Cortex Engine)
-void libapx_command_uncontrol(int user, unitgroup u, string argv) {
+void libapx_command_uncontrol(int user, unitgroup u, string argv, int spawningCount) {
 	string player = StringCase( StringWord(libapx_player[user].chat_msg, 2), false );
 	string target_player = StringCase( StringWord(libapx_player[user].chat_msg, 3), false );
 	string original = player;
@@ -644,7 +644,7 @@ void libapx_command_uncontrol(int user, unitgroup u, string argv) {
 	if( original == "all" ) {
 		while( i != libapx_MAX_PLAYERS ) {
 			// Issue this command over the next color.
-			libapx_chat_parse("_control " + libapx_color_from_player(i) + " " + target_player, user, libapx_player[user].context);
+			libapx_chat_parse("_control " + libapx_color_from_player(i) + " " + target_player, user, libapx_player_parser[user][spawningCount].context, spawningCount);
 			i += 1;
 		}
 		return;
@@ -684,7 +684,7 @@ void libapx_command_uncontrol(int user, unitgroup u, string argv) {
 // ==================
 // allies another player, and if your permissions are greater
 // than target player, also forces them to ally you
-void libapx_command_ally(int user, unitgroup u, string argv) {
+void libapx_command_ally(int user, unitgroup u, string argv, int spawningCount) {
 	string player = StringCase( StringWord(libapx_player[user].chat_msg, 2), false );
 	string target_player = StringCase( StringWord(libapx_player[user].chat_msg, 3), false );
 	string original = player;
@@ -711,7 +711,7 @@ void libapx_command_ally(int user, unitgroup u, string argv) {
 	if( original == "all" ) {
 		while( i != libapx_MAX_PLAYERS ) {
 			// Issue this command over the next color.
-			libapx_chat_parse("_ally " + libapx_color_from_player(i) + " " + target_player, user, libapx_player[user].context);
+			libapx_chat_parse("_ally " + libapx_color_from_player(i) + " " + target_player, user, libapx_player_parser[user][spawningCount].context, spawningCount);
 			i += 1;
 		}
 		return;
@@ -746,7 +746,7 @@ void libapx_command_ally(int user, unitgroup u, string argv) {
 // ==================
 // unallies another player. other player automatically
 // will unally you also
-void libapx_command_unally(int user, unitgroup u, string argv) {
+void libapx_command_unally(int user, unitgroup u, string argv, int spawningCount) {
 	string player = StringCase( StringWord(libapx_player[user].chat_msg, 2), false );
 	string target_player = StringCase( StringWord(libapx_player[user].chat_msg, 3), false );
 	string original = player;
@@ -773,7 +773,7 @@ void libapx_command_unally(int user, unitgroup u, string argv) {
 	if( original == "all" ) {
 		while( i != libapx_MAX_PLAYERS ) {
 			// Issue this command over the next color.
-			libapx_chat_parse("_ally " + libapx_color_from_player(i) + " " + target_player, user, libapx_player[user].context);
+			libapx_chat_parse("_ally " + libapx_color_from_player(i) + " " + target_player, user, libapx_player_parser[user][spawningCount].context, spawningCount);
 			i += 1;
 		}
 		return;
@@ -798,7 +798,7 @@ void libapx_command_unally(int user, unitgroup u, string argv) {
 // libapx_command_remove_player
 // ===================
 // removes all of a specific players units from the map
-void libapx_command_remove_player(int user, unitgroup u, string argv) {
+void libapx_command_remove_player(int user, unitgroup u, string argv, int spawningCount) {
 	int target_player = libapx_color_to_player( StringCase( StringWord(libapx_player[user].chat_msg, 2), false ) ); //GET PLAYER COLOR FROM STRING.
 	unitgroup g;
 
@@ -833,7 +833,7 @@ void libapx_command_remove_player(int user, unitgroup u, string argv) {
 // libapx_command_roll
 // ===================
 // rolls a random number
-void libapx_command_roll(int user, unitgroup u, string argv) {
+void libapx_command_roll(int user, unitgroup u, string argv, int spawningCount) {
 	string snum = StringWord(argv,2);
 	string snumTo = StringWord(argv,3);
 	int tableHost;
@@ -875,7 +875,7 @@ void libapx_command_roll(int user, unitgroup u, string argv) {
 // searches a catalog for a specific keyword, then prints out
 // a set number of results. continued using ">search" with no parameters
 // lists more search results, until none are left
-void libapx_command_search(int user, unitgroup u, string argv) {
+void libapx_command_search(int user, unitgroup u, string argv, int spawningCount) {
 	const int SEARCH_LIST_COUNT = 8;
 	string type = StringCase( StringWord(libapx_player[user].chat_msg, 2), false );
 	string query = StringCase( StringWord(libapx_player[user].chat_msg, 3), false );
@@ -983,12 +983,12 @@ void libapx_command_search(int user, unitgroup u, string argv) {
 // Note: This is a VERY insecure command, that could cause
 // a lot of really weird things to happen ingame. More testing is
 // needed to decide proper permissions for this
-void libapx_command_replace(int user, unitgroup u, string argv) {
+void libapx_command_replace(int user, unitgroup u, string argv, int spawningCount) {
 	string type = StringCase( StringWord(libapx_player[user].chat_msg, 2), false );
 	int catalog;
 	string source = StringWord(libapx_player[user].chat_msg, 3);
 	string replace = StringWord(libapx_player[user].chat_msg, 4);
-	unitgroup g = libapx_player[user].context;
+	unitgroup g = libapx_player_parser[user][spawningCount].context;
 
 	if( source == "" || replace == "" ) {
 		libapx_print_output(user, "Usage: _replace [ability|actor|behavior|weapon|validator|upgrade|unit|turret|light|footprint|model|decal] [SOURCE] [REPLACEMENT]");
@@ -1080,7 +1080,7 @@ void libapx_command_replace(int user, unitgroup u, string argv) {
 // ======================
 // Adds a number of resources to a player (default: 100000)
 // e.g. syntax: \minerals 9001
-void libapx_command_minerals(int user, unitgroup u, string argv) {
+void libapx_command_minerals(int user, unitgroup u, string argv, int spawningCount) {
     int param = StringToInt(StringWord(libapx_player[user].chat_msg, 2));
     if(param == 0) {
 		param = 100000;
@@ -1088,7 +1088,7 @@ void libapx_command_minerals(int user, unitgroup u, string argv) {
     PlayerModifyPropertyInt( user, c_playerPropMinerals, c_playerPropOperAdd, param );
     return;
 }
-void libapx_command_gas(int user, unitgroup u, string argv) {
+void libapx_command_gas(int user, unitgroup u, string argv, int spawningCount) {
     int param = StringToInt(StringWord(libapx_player[user].chat_msg, 2));
     if(param == 0) {
 		param = 100000;
@@ -1096,7 +1096,7 @@ void libapx_command_gas(int user, unitgroup u, string argv) {
     PlayerModifyPropertyInt( user, c_playerPropVespene, c_playerPropOperAdd, param );
     return;
 }
-void libapx_command_terrazine(int user, unitgroup u, string argv) {
+void libapx_command_terrazine(int user, unitgroup u, string argv, int spawningCount) {
     int param = StringToInt(StringWord(libapx_player[user].chat_msg, 2));
     if(param == 0) {
 		param = 100000;
@@ -1108,7 +1108,7 @@ void libapx_command_terrazine(int user, unitgroup u, string argv) {
 // libapx_command_supply
 // ===================
 // Sets the player's built supply to a value (default 200)
-void libapx_command_supply(int user, unitgroup u, string argv) {
+void libapx_command_supply(int user, unitgroup u, string argv, int spawningCount) {
     int param = StringToInt(StringWord(libapx_player[user].chat_msg, 2));
     if(param == 0) {
 		param = 200;
@@ -1120,7 +1120,7 @@ void libapx_command_supply(int user, unitgroup u, string argv) {
 // libapx_command_zoom
 // =================
 // Zooms out a player's camera (max distance: 128)
-void libapx_command_zoom(int user, unitgroup u, string argv) {
+void libapx_command_zoom(int user, unitgroup u, string argv, int spawningCount) {
 	int height = StringToInt( StringWord(libapx_player[user].chat_msg, 2 ));
 
 	if( height == 0 ) { // reset camera for player
@@ -1142,7 +1142,7 @@ void libapx_command_zoom(int user, unitgroup u, string argv) {
 // ==================
 // Changes the map's lighting over a specified period of time
 // if no light is specified, defaults to map terrain's lighting
-void libapx_command_light(int user, unitgroup u, string argv) {
+void libapx_command_light(int user, unitgroup u, string argv, int spawningCount) {
 	string light = StringWord(libapx_player[user].chat_msg, 2);
 	fixed blend_time = StringToFixed(StringWord(libapx_player[user].chat_msg, 3));
 
@@ -1174,7 +1174,7 @@ void libapx_command_light(int user, unitgroup u, string argv) {
 // =================
 // handles blacklist functions
 // (add, remove, removeall, list) as subcommands
-void libapx_command_blacklist(int user, unitgroup u, string argv) {
+void libapx_command_blacklist(int user, unitgroup u, string argv, int spawningCount) {
 	string sub_command;
 	string sub_parameter;
 	int player;
@@ -1260,7 +1260,7 @@ void libapx_command_blacklist(int user, unitgroup u, string argv) {
 // Sets the doodads in a region either on (visible) or off (invisible)
 // If the input param begins with #[name], assumes the area is an existing
 // regions. Else, convert the input param to a radius around player mouse
-void libapx_command_doodads(int user, unitgroup u, string argv) {
+void libapx_command_doodads(int user, unitgroup u, string argv, int spawningCount) {
 	string param = StringWord(libapx_player[user].chat_msg, 2);
 	string state = StringWord(libapx_player[user].chat_msg, 3);
 	region r;
@@ -1303,7 +1303,7 @@ void libapx_command_doodads(int user, unitgroup u, string argv) {
 //
 // TODO: need to abstract event creation to different types of events.
 //      -> currently only support a hardcoded unit enter region event
-void libapx_command_event(int user, unitgroup u, string argv) {
+void libapx_command_event(int user, unitgroup u, string argv, int spawningCount) {
 	string cmds = libapx_string_trim(libapx_player[user].chat_msg);
 	string type = StringWord(argv, 2);
 	int event_id;

@@ -28,7 +28,7 @@ string libapx_ui_commands_str_categories;
 void libapx_ui_commands_entries_init() {
 	int i;//cmd increment
 	int j;//Category increment
-	libapx_ui_commands_str_categories = "admin alias permissions camera general unit actor region stats chat";
+	libapx_ui_commands_str_categories = "admin alias permissions general unit actor region stats chat";
 
 	//admin
 	i = 1;
@@ -92,6 +92,16 @@ void libapx_ui_commands_entries_init() {
 	libapx_ui_commands_entry[j][i].l6 = "";
 	libapx_ui_commands_entry[j][i].l7 = "";
 	libapx_ui_commands_entry[j][i].l8 = "";
+	i+=1;
+	libapx_ui_commands_entry[j][i].cmd = "!destroy";
+	libapx_ui_commands_entry[j][i].l1 = "Destroys all actrors in a region, unreversable";
+	libapx_ui_commands_entry[j][i].l2 = "ex. !destroy 3";
+	libapx_ui_commands_entry[j][i].l3 = "";
+	libapx_ui_commands_entry[j][i].l4 = "";
+	libapx_ui_commands_entry[j][i].l5 = "";
+	libapx_ui_commands_entry[j][i].l6 = "";
+	libapx_ui_commands_entry[j][i].l7 = "";
+	libapx_ui_commands_entry[j][i].l8 = "";
 	i = 1;
 	j = 2;
 	//alias
@@ -118,19 +128,6 @@ void libapx_ui_commands_entries_init() {
 	libapx_ui_commands_entry[j][i].l8 = "_blacklist removeall";
 	i = 1;
 	j = 4;
-	//camera
-
-	libapx_ui_commands_entry[j][i].cmd = "_camera";
-	libapx_ui_commands_entry[j][i].l1 = "Sets camera properties.";
-	libapx_ui_commands_entry[j][i].l2 = "do _camera properties";
-	libapx_ui_commands_entry[j][i].l3 = "to list out properties";
-	libapx_ui_commands_entry[j][i].l4 = "ex. _camera AngleOfAttack 90";
-	libapx_ui_commands_entry[j][i].l5 = "_camera reset";
-	libapx_ui_commands_entry[j][i].l6 = "";
-	libapx_ui_commands_entry[j][i].l7 = "";
-	libapx_ui_commands_entry[j][i].l8 = "";
-	i = 1;
-	j = 5;
 	//general
 	libapx_ui_commands_entry[j][i].cmd = "@spawn";
 	libapx_ui_commands_entry[j][i].l1 = "Spawns a unit.";
@@ -158,6 +155,16 @@ void libapx_ui_commands_entries_init() {
 	libapx_ui_commands_entry[j][i].l3 = "";
 	libapx_ui_commands_entry[j][i].l4 = "";
 	libapx_ui_commands_entry[j][i].l5 = "";
+	libapx_ui_commands_entry[j][i].l6 = "";
+	libapx_ui_commands_entry[j][i].l7 = "";
+	libapx_ui_commands_entry[j][i].l8 = "";
+	i+=1;
+	libapx_ui_commands_entry[j][i].cmd = "_camera";
+	libapx_ui_commands_entry[j][i].l1 = "Sets camera properties.";
+	libapx_ui_commands_entry[j][i].l2 = "do _camera properties";
+	libapx_ui_commands_entry[j][i].l3 = "to list out properties";
+	libapx_ui_commands_entry[j][i].l4 = "ex. _camera AngleOfAttack 90";
+	libapx_ui_commands_entry[j][i].l5 = "_camera reset";
 	libapx_ui_commands_entry[j][i].l6 = "";
 	libapx_ui_commands_entry[j][i].l7 = "";
 	libapx_ui_commands_entry[j][i].l8 = "";
@@ -312,7 +319,7 @@ void libapx_ui_commands_entries_init() {
 	libapx_ui_commands_entry[j][i].l7 = "";
 	libapx_ui_commands_entry[j][i].l8 = "";
 	i = 1;
-	j = 6;
+	j = 5;
 	//unit
 	libapx_ui_commands_entry[j][i].cmd = "@kill";
 	libapx_ui_commands_entry[j][i].l1 = "Kills a unit (plays death animation).";
@@ -494,7 +501,7 @@ void libapx_ui_commands_entries_init() {
 	libapx_ui_commands_entry[j][i].l7 = "";
 	libapx_ui_commands_entry[j][i].l8 = "";
 	i = 1;
-	j = 7;
+	j = 6;
 	//actor
 
 	libapx_ui_commands_entry[j][i].cmd = "What are actors?";
@@ -617,6 +624,16 @@ void libapx_ui_commands_entries_init() {
 	libapx_ui_commands_entry[j][i].l7 = "";
 	libapx_ui_commands_entry[j][i].l8 = "";
 	i+=1;
+	libapx_ui_commands_entry[j][i].cmd = "@setdelay";
+	libapx_ui_commands_entry[j][i].l1 = "Sets the default delay for Attach";
+	libapx_ui_commands_entry[j][i].l2 = "Defaulted to 0.02 seconds.";
+	libapx_ui_commands_entry[j][i].l3 = "ex. @setdelay .5";
+	libapx_ui_commands_entry[j][i].l4 = "";
+	libapx_ui_commands_entry[j][i].l5 = "";
+	libapx_ui_commands_entry[j][i].l6 = "";
+	libapx_ui_commands_entry[j][i].l7 = "";
+	libapx_ui_commands_entry[j][i].l8 = "";
+	i+=1;
 	libapx_ui_commands_entry[j][i].cmd = "1-@attach";
 	libapx_ui_commands_entry[j][i].l1 = "Attachs an actor with a rotation or translation";
 	libapx_ui_commands_entry[j][i].l2 = "@attach marine weapon";
@@ -647,7 +664,7 @@ void libapx_ui_commands_entries_init() {
 	libapx_ui_commands_entry[j][i].l7 = "";
 	libapx_ui_commands_entry[j][i].l8 = "";
 	i = 1;
-	j = 8;
+	j = 7;
 	//region
 	libapx_ui_commands_entry[j][i].cmd = "#create";
 	libapx_ui_commands_entry[j][i].l1 = "Creates a region with x radius";
@@ -709,7 +726,7 @@ void libapx_ui_commands_entries_init() {
 	libapx_ui_commands_entry[j][i].l7 = "";
 	libapx_ui_commands_entry[j][i].l8 = "";
 	i = 1;
-	j = 9;
+	j = 8;
 	//stats
 	libapx_ui_commands_entry[j][i].cmd = "@behaviors";
 	libapx_ui_commands_entry[j][i].l1 = "Lists a units behaviors";
@@ -980,9 +997,38 @@ void libapx_ui_commands_entries_init() {
 	libapx_ui_commands_entry[j][i].l6 = "";
 	libapx_ui_commands_entry[j][i].l7 = "";
 	libapx_ui_commands_entry[j][i].l8 = "";
-
+	i+=1;
+	libapx_ui_commands_entry[j][i].cmd = "@unitvar";
+	libapx_ui_commands_entry[j][i].l1 = "Gives a unit(s) a alias to be ";
+	libapx_ui_commands_entry[j][i].l2 = "used later.";
+	libapx_ui_commands_entry[j][i].l3 = "ex. @unitvar 123";
+	libapx_ui_commands_entry[j][i].l4 = "";
+	libapx_ui_commands_entry[j][i].l5 = "";
+	libapx_ui_commands_entry[j][i].l6 = "";
+	libapx_ui_commands_entry[j][i].l7 = "";
+	libapx_ui_commands_entry[j][i].l8 = "";
+	i+=1;
+	libapx_ui_commands_entry[j][i].cmd = "@context";
+	libapx_ui_commands_entry[j][i].l1 = "Refers back to a unit(s) alias ";
+	libapx_ui_commands_entry[j][i].l2 = "used with @unitvar";
+	libapx_ui_commands_entry[j][i].l3 = "@context 123";
+	libapx_ui_commands_entry[j][i].l4 = "";
+	libapx_ui_commands_entry[j][i].l5 = "";
+	libapx_ui_commands_entry[j][i].l6 = "";
+	libapx_ui_commands_entry[j][i].l7 = "";
+	libapx_ui_commands_entry[j][i].l8 = "";
+	i+=1;
+	libapx_ui_commands_entry[j][i].cmd = "@unitswap";
+	libapx_ui_commands_entry[j][i].l1 = "Swaps units selected with";
+	libapx_ui_commands_entry[j][i].l2 = "Beacon_Nova if nothing specified";
+	libapx_ui_commands_entry[j][i].l3 = "Maintains position, face, and height";
+	libapx_ui_commands_entry[j][i].l4 = "of the previous units.";
+	libapx_ui_commands_entry[j][i].l5 = "ex. @unitswap";
+	libapx_ui_commands_entry[j][i].l6 = "@unitswap marine";
+	libapx_ui_commands_entry[j][i].l7 = "";
+	libapx_ui_commands_entry[j][i].l8 = "";
 	i = 1;
-	j = 10;
+	j = 9;
 	//chat
 	libapx_ui_commands_entry[j][i].cmd = "@setnamecolor";
 	libapx_ui_commands_entry[j][i].l1 = "Sets the setname name's color";

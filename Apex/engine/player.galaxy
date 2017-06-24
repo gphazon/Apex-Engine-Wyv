@@ -8,6 +8,7 @@
 
 // basic game player constants
 const int libapx_MAX_PLAYERS = 16; // max players supported is 16 (0 - neutral, 15 - hostile)
+const int libapx_PARSER_THREAD_COUNT = 500; // Max thread count for parser
 const string libapx_PLAYER_BANK_NAME = "ApexBank";
 const int libapx_PLAYER_NEUTRAL = 0;
 const int libapx_PLAYER_HOSTILE = 15;
@@ -43,6 +44,11 @@ struct libapx_player_properties {
 	// when running a command, chat_msg is set to the command being run
 	string chat_msg;
 
+	//Spawncounter
+	//===============
+	//An integer to emulate threads within the parser.
+	int spawningCount;
+
 	// done_parsing
 	// =================
 	// flag to manually interrupt and stop the parser for the player
@@ -75,10 +81,6 @@ struct libapx_player_properties {
 	bool alias_blocked;		// can player use aliases system
 	bool template_blocked;	// can player use template system
 
-	// context
-	// ===============
-	// unitgroup target for running commands
-	unitgroup context;
 
 	// is_placing_unit
 	// ===============
@@ -145,15 +147,37 @@ struct libapx_player_properties {
 	//Scaler for units
 	fixed scaler;
 
+	//delay for Attach
+	fixed delay;
+
 	//Unit for spawner
 	unit spawner_unit;
-	bool spawner_toggle;
+	bool spawner_toggled;
 };
+
+// libapx_player_parser_properties
+// =======================
+// contains parser context
+struct libapx_player_parser_properties {
+	// context
+	// ===============
+	// unitgroup target for running commands
+	unitgroup context;
+};
+
+
 
 // libapx_player[libapx_MAX_PLAYERS]
 // ====================================
 // global array for players with index corresponding to player index
 libapx_player_properties[libapx_MAX_PLAYERS] libapx_player;
+
+
+// libapx_player[libapx_MAX_PLAYERS]
+// ====================================
+// global array for parser with index corresponding to player index and parsing count
+//10 theoretical threads able to run in sequence, I'm going to be a super indian.
+libapx_player_parser_properties[libapx_MAX_PLAYERS][libapx_PARSER_THREAD_COUNT] libapx_player_parser;
 
 
 // libapx_sort_aliases (prototype)
@@ -173,9 +197,10 @@ void libapx_player_initialize(int player) {
 	libapx_player[player].permission_level = 0;
 	libapx_player[player].scaler = 1;
 	libapx_player[player].spawner_unit = null;
-	libapx_player[player].spawner_bool = false;
+	libapx_player[player].spawner_toggled = false;
 	libapx_player[player].spawn_splat = null;
-
+	libapx_player[player].spawningCount = 1;
+	libapx_player[player].delay =  0.02;
 	libapx_player[player].waygate_dialog = 0;
 
 	libapx_player[player].active_ui_panel = libapx_UI_PANEL_NONE;
@@ -313,4 +338,22 @@ string libapx_color_from_player_default(int plr) {
 // cant be used for comparisons or anything useful)
 string libapx_color_from_player(int plr) {
 	return libapx_color_from_player_default(PlayerGetColorIndex(plr, false));
+}
+
+void libapx_chat_parse_increment() {
+	if (libapx_player[EventPlayer()].spawningCount < libapx_PARSER_THREAD_COUNT - 1)  {
+		libapx_player[EventPlayer()].spawningCount = libapx_player[EventPlayer()].spawningCount + 1;
+	}
+	else {
+		libapx_player[EventPlayer()].spawningCount = 1;
+	}
+}
+
+void libapx_set_target(int player, unitgroup target, int spawningCount) {
+	libapx_player_parser[player][spawningCount].context = target;
+}
+
+void 	libapx_waitDelay(int player) {
+	fixed time = libapx_player[player].delay;
+	Wait(time, c_timeGame);
 }
