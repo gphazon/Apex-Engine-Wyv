@@ -212,36 +212,36 @@ void libapx_command_give(int user, unitgroup u, string argv, int spawningCount) 
 
 	return;
 }
-// libapx_command_givearea
-// gives units in a radius to another player
+void libapx_command_undo(int user, unitgroup u, string argv) {
 
-void libpax_command_givearea(int user, unitgroup u,string argv) {
-	unitgroup g;
-	fixed radius = StringToFixed( StringWord( argv, 2 ));
-	// default radius = 5
-		if(radius == 0.0 {
-			radius = 5.0
-		}
+        unitgroup selection = UnitGroupEmpty();
+        unitgroup g = libapx_chat_get_context(EvenPlayer());
+            int iterations;
 
-int new_owner = libapx_color_to_player( StringCase( StringWord(argv, 2), false ) );
+        if(StringWord(libapx_chat_get_parse_line(EventPlayer())2)=="") {
+        return
+        }
+	
+        // Skipping implementing setname duplications
+        // Copy the visuals via cache
+        if ( StringEqual(param, "+visual", false) ) {
+            source_unit_id = FixedToString(UnitGetCustomValue(source, libapx_UNIT_INDEX_ID), 0);
+            cache = 1;
+            while( DataTableValueExists(true, source_unit_id + "." + IntToString(cache)) ) {
+                libapx_chat_parse(DataTableGetString(true, source_unit_id + "." + IntToString(cache)), user, targets);
+                cache += 1;
+            }
+        }
 
-	if(0<new_owner || new_owner>15){
-return;
+
+        UnitGroupLoopStep();
+    }
+    UnitGroupLoopEnd();
+
+    u = created;
+
+    return;
 }
-
-g = UnitGroup( null, c_playerAny, RegionCircle( libapx_player[user].mouse_position, radius), null, 0 );
-	// can't give unit to higher level
-	g = libapx_enforce_unit_permissions(g, user); 
-
-	while(!UnitGroupLoopDone()) {
-		UnitSetOwner( UnitGroupLoopCurrent(), new_owner, true );
-		UnitGroupLoopStep();
-	}
-	UnitGroupLoopEnd();
-
-	return;
-}
-
 
 
 // libapx_command_renameall
